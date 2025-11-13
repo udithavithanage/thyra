@@ -1,6 +1,6 @@
 {
   "name": "thyra",
-  "version": "2.0.1",
+  "version": "1.0.1",
   "description": "Simple project folder opener CLI",
   "type": "module",
   "bin": {

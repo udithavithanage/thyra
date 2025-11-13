@@ -1,27 +1,34 @@
-import { spawn } from "node:child_process";
+import { exec } from "child_process";
 
 export function openInEditor(folderPath) {
   const editorCmd = process.env.THYRA_EDITOR || "code";
 
-  const child = spawn(editorCmd, [folderPath], {
-    stdio: "inherit",
-    shell: true,
-  });
+  const safePath = folderPath.replace(/(["\\$`])/g, "\\$1");
+  const command = `${editorCmd} "${safePath}"`;
 
-  child.on("error", (err) => {
-    console.error(
-      `Failed to start editor "${editorCmd}". Is it installed and on your PATH?`
-    );
-    console.error(err.message);
-    process.exit(1);
-  });
+  console.log(`Opening "${folderPath}" in "${editorCmd}"...`);
 
-  child.on("exit", (code) => {
-    if (code !== 0) {
-      console.error(`Editor process exited with code ${code}.`);
-      process.exit(code || 1);
+  const child = exec(command, (error, stdout, stderr) => {
+    if (stdout) {
+      process.stdout.write(stdout);
+    }
+    if (stderr) {
+      process.stderr.write(stderr);
+    }
+
+    if (error) {
+      console.error(
+        `Failed to start editor "${editorCmd}". Is it installed and on your PATH?`
+      );
+      console.error(error.message);
+      process.exit(1);
     }
   });
 
-  console.log(`Opening "${folderPath}" in "${editorCmd}"...`);
+  if (child.stdout) {
+    child.stdout.pipe(process.stdout);
+  }
+  if (child.stderr) {
+    child.stderr.pipe(process.stderr);
+  }
 }
