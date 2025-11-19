@@ -7,8 +7,8 @@
     "thyra": "./bin/thyra.js"
   },
   "scripts": {
-    "lint": "echo \"add your linter here\"",
-    "test": "echo \"add your tests here\""
+    "start": "node ./bin/thyra.js",
+    "lint": "eslint ."
   },
   "engines": {
     "node": ">=18.0.0"
@@ -21,5 +21,13 @@
     "vscode"
   ],
   "author": "Uditha Vithanage",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udithavithanage/thyra.git"
+  },
+  "bugs": {
+    "url": "https://github.com/udithavithanage/thyra/issues"
+  },
+  "homepage": "https://github.com/udithavithanage/thyra#readme"
 }
