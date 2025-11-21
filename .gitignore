@@ -1,0 +1,137 @@
+# -------------------------
+# OS-SPECIFIC FILES
+# -------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# -------------------------
+# EDITORS / IDEs
+# -------------------------
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+out/
+gen/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+
+# Emacs
+*~
+
+# -------------------------
+# PROGRAMMING LANGUAGES
+# -------------------------
+
+# Node / JavaScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.env
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+.eggs/
+.env/
+.venv/
+venv/
+pip-log.txt
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+hs_err_pid*
+
+# Go
+bin/
+vendor/
+*.exe
+
+# Rust
+target/
+Cargo.lock
+
+# PHP / Composer
+vendor/
+composer.lock
+
+# Ruby
+.bundle/
+log/
+tmp/
+*.gem
+
+# C/C++
+*.o
+*.obj
+*.so
+*.exe
+*.dll
+*.dylib
+
+# -------------------------
+# VERSION CONTROL
+# -------------------------
+
+# Git
+*.orig
+*.bak
+
+# -------------------------
+# PROJECT FILES
+# -------------------------
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# Compiled files
+*.out
+*.class
+
+# Environment settings
+.env
+.env.local
+.env.*.local
