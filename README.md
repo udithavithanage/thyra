@@ -15,6 +15,7 @@ A tiny CLI to bookmark project folders under short names and open them instantly
 
 - Save any directory under a short, memorable name
 - Open saved directories instantly from the terminal
+- Check the CLI version easily (`thyra version`)
 - Works with any editor (VS Code, WebStorm, Vim, Sublime Text, Emacs, etc.)
 - Stores configuration in your user directory
 - Cross-platform: macOS, Linux, Windows
@@ -46,6 +47,9 @@ thyra open blog
 
 # See everything you saved
 thyra list
+
+# Check thyra version
+thyra version
 ```
 
 ---
@@ -92,10 +96,24 @@ blog     → /Users/you/projects/personal-blog
 api      → /var/www/company/api
 ```
 
+### Show CLI version
+
+```bash
+thyra --version
+```
+
+**Output**
+
+```
+v1.0.5
+```
+
+This shows the currently installed version of **thyra**.
+
 ### Help
 
 ```bash
-thyra help
+thyra --help
 ```
 
 ---
@@ -166,6 +184,9 @@ thyra open docs
 
 # View all
 thyra list
+
+# Check thyra version
+thyra version
 ```
 
 ---

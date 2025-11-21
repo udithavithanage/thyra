@@ -2,8 +2,10 @@ import { exec } from "child_process";
 
 export function openInEditor(folderPath) {
   const editorCmd = process.env.THYRA_EDITOR || "code";
-
-  const safePath = folderPath.replace(/(["\\$`])/g, "\\$1");
+  let safePath = folderPath;
+  if (editorCmd.trim() != "explorer") {
+    safePath = folderPath.replace(/(["\\$`])/g, "\\$1");
+  }
   const command = `${editorCmd} "${safePath}"`;
 
   console.log(`Opening "${folderPath}" in "${editorCmd}"...`);
@@ -16,7 +18,7 @@ export function openInEditor(folderPath) {
       process.stderr.write(stderr);
     }
 
-    if (error) {
+    if (error && editorCmd !== "explorer") {
       console.error(
         `Failed to start editor "${editorCmd}". Is it installed and on your PATH?`
       );
