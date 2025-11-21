@@ -8,8 +8,11 @@ export function runList(store) {
     return;
   }
 
-  console.log("Saved folders:");
-  for (const key of keys) {
-    console.log(`  ${key} -> ${all[key]}`);
-  }
+  const rows = keys.map((key) => ({
+    Name: key,
+    Path: all[key],
+  }));
+
+  console.log("\nSaved folders:\n");
+  console.table(rows);
 }

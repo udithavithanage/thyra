@@ -1,11 +1,12 @@
 import { ConfigStore } from "./configStore.js";
 import { runConfig } from "./commands/config.js";
+import { runVersion } from "./commands/version.js";
 import { runOpen } from "./commands/open.js";
 import { runList } from "./commands/list.js";
 import { runHelp } from "./commands/help.js";
 import { getConfigFilePath } from "./configStore.js";
 
-export function run() {
+(function run() {
   const [, , command, ...rest] = process.argv;
 
   const configPath = getConfigFilePath();
@@ -18,6 +19,11 @@ export function run() {
     command === "-h"
   ) {
     runHelp();
+    return;
+  }
+
+  if (command === "version" || command === "--version" || command === "-v") {
+    runVersion();
     return;
   }
 
@@ -39,4 +45,4 @@ export function run() {
       runHelp(1);
       break;
   }
-}
+})();
