@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { exec } from "node:child_process";
 
 export function openInEditor(folderPath) {
   const editorCmd = process.env.THYRA_EDITOR || "code";
