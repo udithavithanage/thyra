@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 
 const CONFIG_FILE_NAME = "thyra.json";
+const THYRA_VERSION_DATA_FILE_NAME = "thyra.version.json";
 const APP_DIR_NAME = "thyra";
 
 export function getConfigFilePath() {
@@ -29,12 +30,16 @@ export function getConfigFilePath() {
     fs.mkdirSync(appConfigDir, { recursive: true });
   }
 
-  return path.join(appConfigDir, CONFIG_FILE_NAME);
+  return [
+    path.join(appConfigDir, CONFIG_FILE_NAME),
+    path.join(appConfigDir, THYRA_VERSION_DATA_FILE_NAME),
+  ];
 }
 
 export class ConfigStore {
-  constructor(filePath) {
+  constructor([filePath, versionDateFilePath]) {
     this.filePath = filePath;
+    this.versionDateFilePath = versionDateFilePath;
     this.data = this.load();
   }
 
