@@ -143,29 +143,22 @@ function runUpdate(pkg) {
   });
 }
 
-export async function ensureUpToDate(store, currentVersion, options = {}) {
+export async function ensureUpToDate(store, currentVersion) {
   const pkgName = "thyra";
-  const config = loadVersionCheckData(store);
-
-  const {
-    throttleMs = 24 * 60 * 60 * 1000, // default: once/day
-    envSkip = process.env.THYRA_NO_UPDATE_CHECK === "1" ||
-      process.env.CI === "true",
-  } = options;
-
-  if (envSkip) return;
-
   const today = new Date().toISOString().split("T")[0];
+
+  const config = loadVersionCheckData(store);
+  if (config.lastChecked === today) return;
+
   const latest = await fetchLatestVersion(pkgName);
+  if (!latest) return;
 
   saveVersionCheckData(store, {
     lastChecked: today,
     lastKnownLatest: latest ?? null,
   });
 
-  if (!latest) return;
   if (latest === currentVersion) return;
-  if (config.lastChecked === today) return;
 
   const question = `A new version of ${pkgName} is available (${latest}). Would you like to update now?`;
   const yes = await askYesNo(question);

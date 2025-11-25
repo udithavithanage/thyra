@@ -37,9 +37,9 @@ export function getConfigFilePath() {
 }
 
 export class ConfigStore {
-  constructor([filePath, versionDateFilePath]) {
+  constructor([filePath, versionDataFilePath]) {
     this.filePath = filePath;
-    this.versionDateFilePath = versionDateFilePath;
+    this.versionDataFilePath = versionDataFilePath;
     this.data = this.load();
   }
 

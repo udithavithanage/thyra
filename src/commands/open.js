@@ -4,7 +4,7 @@ import { exec } from "node:child_process";
 function openInEditor(folderPath) {
   const editorCmd = process.env.THYRA_EDITOR || "code";
   let safePath = folderPath;
-  if (editorCmd.trim() != "explorer") {
+  if (editorCmd.trim() !== "explorer") {
     safePath = folderPath.replace(/(["\\$`])/g, "\\$1");
   }
   const command = `${editorCmd} "${safePath}"`;
