@@ -1,4 +1,4 @@
-export function runHelp(exitCode) {
+export function runHelp(exitCode?: number): void {
   console.log(`
 thyra - Quick shortcut manager for project folders
 `);

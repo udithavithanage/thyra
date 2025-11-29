@@ -1,10 +1,10 @@
-import { ConfigStore } from "./configStore.js";
-import { runConfig } from "./commands/config.js";
-import { runVersion } from "./commands/version.js";
-import { runOpen } from "./commands/open.js";
-import { runList } from "./commands/list.js";
-import { runHelp } from "./commands/help.js";
-import { getConfigFilePath } from "./configStore.js";
+import { runConfig } from "~/commands/config";
+import { runVersion } from "~/commands/version";
+import { runOpen } from "~/commands/open";
+import { runList } from "~/commands/list";
+import { runHelp } from "~/commands/help";
+
+import { getConfigFilePath, ConfigStore } from "~/configStore";
 
 (function run() {
   const [, , command, ...rest] = process.argv;

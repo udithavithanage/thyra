@@ -5,7 +5,7 @@ import path from "node:path";
 const CONFIG_FILE_NAME = "thyra.json";
 const APP_DIR_NAME = "thyra";
 
-export function getConfigFilePath() {
+export function getConfigFilePath(): string {
   const homeDir = os.homedir();
 
   if (!homeDir) {
@@ -13,7 +13,7 @@ export function getConfigFilePath() {
     process.exit(1);
   }
 
-  let baseConfigDir;
+  let baseConfigDir: string;
 
   if (process.platform === "win32") {
     baseConfigDir =
@@ -33,12 +33,15 @@ export function getConfigFilePath() {
 }
 
 export class ConfigStore {
-  constructor(filePath) {
+  private filePath: string;
+  private data: Record<string, string>;
+
+  constructor(filePath: string) {
     this.filePath = filePath;
     this.data = this.load();
   }
 
-  load() {
+  private load(): Record<string, string> {
     if (!fs.existsSync(this.filePath)) {
       return {};
     }
@@ -52,12 +55,13 @@ export class ConfigStore {
       console.warn("Config file is not an object. Resetting.");
       return {};
     } catch (err) {
-      console.warn("Failed to read config file. Resetting.", err.message);
+      const error = err as Error;
+      console.warn("Failed to read config file. Resetting.", error.message);
       return {};
     }
   }
 
-  save() {
+  private save(): void {
     try {
       fs.writeFileSync(
         this.filePath,
@@ -65,25 +69,26 @@ export class ConfigStore {
         "utf8"
       );
     } catch (err) {
-      console.error("Failed to save config file:", err.message);
+      const error = err as Error;
+      console.error("Failed to save config file:", error.message);
       process.exit(1);
     }
   }
 
-  set(key, value) {
+  set(key: string, value: string): void {
     this.data[key] = value;
     this.save();
   }
 
-  get(key) {
+  get(key: string): string | undefined {
     return this.data[key];
   }
 
-  has(key) {
+  has(key: string): boolean {
     return Object.prototype.hasOwnProperty.call(this.data, key);
   }
 
-  all() {
+  all(): Record<string, string> {
     return { ...this.data };
   }
 }

@@ -1,4 +1,6 @@
-export function runList(store) {
+import type { ConfigStore } from "~/configStore";
+
+export function runList(store: ConfigStore): void {
   const all = store.all();
   const keys = Object.keys(all);
 

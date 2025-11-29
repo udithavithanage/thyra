@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 
-export function openInEditor(folderPath) {
+export function openInEditor(folderPath: string): void {
   const editorCmd = process.env.THYRA_EDITOR || "code";
   let safePath = folderPath;
   if (editorCmd.trim() != "explorer") {
