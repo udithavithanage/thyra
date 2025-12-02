@@ -9,8 +9,7 @@ import { getConfigFilePath, ConfigStore } from "~/configStore";
 (function run() {
   const [, , command, ...rest] = process.argv;
 
-  const configPath = getConfigFilePath();
-  const store = new ConfigStore(configPath);
+  const store = new ConfigStore(getConfigFilePath());
 
   if (
     !command ||
@@ -18,12 +17,11 @@ import { getConfigFilePath, ConfigStore } from "~/configStore";
     command === "--help" ||
     command === "-h"
   ) {
-    runHelp();
+    runHelp(0);
     return;
   }
-
   if (command === "version" || command === "--version" || command === "-v") {
-    runVersion();
+    runVersion(store);
     return;
   }
 
@@ -31,18 +29,14 @@ import { getConfigFilePath, ConfigStore } from "~/configStore";
     case "config":
       runConfig(store, rest);
       break;
-
     case "open":
       runOpen(store, rest);
       break;
-
     case "list":
       runList(store);
       break;
-
     default:
       console.error(`Unknown command: ${command}`);
       runHelp(1);
-      break;
   }
 })();

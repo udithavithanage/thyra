@@ -3,9 +3,10 @@ import os from "node:os";
 import path from "node:path";
 
 const CONFIG_FILE_NAME = "thyra.json";
+const THYRA_VERSION_DATA_FILE_NAME = "thyra.version.json";
 const APP_DIR_NAME = "thyra";
 
-export function getConfigFilePath(): string {
+export function getConfigFilePath(): string[] {
   const homeDir = os.homedir();
 
   if (!homeDir) {
@@ -29,15 +30,21 @@ export function getConfigFilePath(): string {
     fs.mkdirSync(appConfigDir, { recursive: true });
   }
 
-  return path.join(appConfigDir, CONFIG_FILE_NAME);
+  return [
+    path.join(appConfigDir, CONFIG_FILE_NAME),
+    path.join(appConfigDir, THYRA_VERSION_DATA_FILE_NAME),
+  ];
 }
 
 export class ConfigStore {
   private filePath: string;
   private data: Record<string, string>;
 
-  constructor(filePath: string) {
+  public versionDataFilePath: string;
+
+  constructor([filePath, versionDateFilePath]: string[]) {
     this.filePath = filePath;
+    this.versionDataFilePath = versionDateFilePath;
     this.data = this.load();
   }
 
@@ -66,7 +73,7 @@ export class ConfigStore {
       fs.writeFileSync(
         this.filePath,
         JSON.stringify(this.data, null, 2),
-        "utf8"
+        "utf8",
       );
     } catch (err) {
       const error = err as Error;
