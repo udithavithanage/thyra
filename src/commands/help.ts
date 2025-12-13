@@ -1,30 +1,42 @@
-export function runHelp(exitCode?: number): void {
-  console.log(`
-thyra - Quick shortcut manager for project folders
-`);
+import color from "picocolors";
 
-  console.table([
+import { colorize, printCommandTable } from "~/color-logs";
+
+export function runHelp(exitCode: number) {
+  console.log(
+    `\n${color.bold(color.cyan("thyra"))} ${color.dim(
+      "- Quick shortcut manager for project folders",
+    )}\n`,
+  );
+
+  const rows = [
     {
-      Command: "thyra config <name> <folder_path>",
+      Command: colorize("thyra config <name> <folder_path>"),
       Description: "Save a folder path",
     },
-    { Command: "thyra open <name>", Description: "Open folder in your editor" },
-    { Command: "thyra list", Description: "Show all saved paths" },
-    { Command: "thyra --version", Description: "Show CLI version" },
-    { Command: "thyra --help", Description: "Show this help" },
-  ]);
+    {
+      Command: colorize("thyra open <name>"),
+      Description: "Open folder in your editor",
+    },
+    { Command: colorize("thyra list"), Description: "Show all saved paths" },
+    { Command: colorize("thyra --version"), Description: "Show CLI version" },
+    { Command: colorize("thyra --help"), Description: "Show this help" },
+  ];
 
-  console.log(`
-Examples:
-  thyra config my-app ~/projects/my-app
-  thyra open my-app
-  thyra --version
+  printCommandTable(rows);
 
-Environment:
-  THYRA_EDITOR                        Editor command (default: "code")
-`);
+  console.log(
+    `\n${color.bold(color.underline("Examples:"))}
+  ${colorize("thyra config <name> <folder_path>")}   ${color.dim("# Save a path")}
+  ${colorize("thyra open <name>")}                   ${color.dim(
+    "# Open in editor",
+  )}
+  ${colorize("thyra --version")}
 
-  if (typeof exitCode === "number") {
-    process.exit(exitCode);
-  }
+${color.bold(color.underline("Environment:"))}
+  ${color.cyan("THYRA_EDITOR")}  ${color.dim('Editor command (default: "code")')}
+`,
+  );
+
+  if (typeof exitCode === "number") process.exit(exitCode);
 }
