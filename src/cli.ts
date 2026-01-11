@@ -3,6 +3,8 @@ import { runVersion } from "~/commands/version";
 import { runOpen } from "~/commands/open";
 import { runList } from "~/commands/list";
 import { runHelp } from "~/commands/help";
+import { runRemove } from "~/commands/remove";
+import { runUpdate as runUpdateCmd } from "~/commands/update";
 
 import { getConfigFilePath, ConfigStore } from "~/configStore";
 
@@ -31,6 +33,12 @@ import { getConfigFilePath, ConfigStore } from "~/configStore";
       break;
     case "open":
       runOpen(store, rest);
+      break;
+    case "remove":
+      runRemove(store, rest);
+      break;
+    case "update":
+      runUpdateCmd(store, rest);
       break;
     case "list":
       runList(store);

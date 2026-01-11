@@ -1,27 +1,5 @@
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
-
 import type { ConfigStore } from "~/configStore";
-
-function resolveFolderPath(inputPath: string): string {
-  let folderPath = inputPath.replace(/^~(?=$|[\\/])/, os.homedir());
-  folderPath = path.resolve(folderPath);
-  return folderPath;
-}
-
-function ensureDirectoryExists(folderPath: string): void {
-  if (!fs.existsSync(folderPath)) {
-    console.error(`Folder does not exist: ${folderPath}`);
-    process.exit(1);
-  }
-
-  const stat = fs.statSync(folderPath);
-  if (!stat.isDirectory()) {
-    console.error(`Path is not a directory: ${folderPath}`);
-    process.exit(1);
-  }
-}
+import { resolveFolderPath, ensureDirectoryExists } from "~/utils/path";
 
 export function runConfig(store: ConfigStore, args: string[]): void {
   const name = args[0];

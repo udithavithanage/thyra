@@ -44,7 +44,6 @@ thyra config api /var/www/company/api
 
 # Open instantly
 thyra open blog
-
 # See everything you saved
 thyra list
 
@@ -109,6 +108,34 @@ v1.0.5
 ```
 
 This shows the currently installed version of **thyra**.
+
+### Update a saved project
+
+```bash
+thyra update <name> <path>
+```
+
+Update the stored path for an existing alias. The folder must exist on disk.
+
+**Example**
+
+```bash
+thyra update blog ~/projects/personal-blog-v2
+```
+
+### Remove a saved project
+
+```bash
+thyra remove <name>
+```
+
+Remove an alias from your saved mappings. This cannot be undone except by re-running `thyra config`.
+
+**Example**
+
+```bash
+thyra remove api
+```
 
 ### Help
 
