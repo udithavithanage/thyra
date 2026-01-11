@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 
 export function resolveFolderPath(inputPath: string): string {
-  let folderPath = inputPath.replace(/^~(?=$|[\\\/])/, os.homedir());
+  let folderPath = inputPath.replace(/^~(?=$|[\\/])/, os.homedir());
   folderPath = path.resolve(folderPath);
   return folderPath;
 }
