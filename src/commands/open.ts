@@ -21,7 +21,7 @@ function openInEditor(folderPath: string) {
 
     if (error && editorCmd !== "explorer") {
       console.error(
-        `Failed to start editor "${editorCmd}". Is it installed and on your PATH?`,
+        `Failed to start editor "${editorCmd}". Is it installed and on your PATH?`
       );
       console.error(error.message);
       process.exit(1);
@@ -33,19 +33,7 @@ function openInEditor(folderPath: string) {
 }
 
 import type { ConfigStore } from "~/configStore";
-
-function ensureDirectoryExists(folderPath: string): void {
-  if (!fs.existsSync(folderPath)) {
-    console.error(`Folder does not exist: ${folderPath}`);
-    process.exit(1);
-  }
-
-  const stat = fs.statSync(folderPath);
-  if (!stat.isDirectory()) {
-    console.error(`Path is not a directory: ${folderPath}`);
-    process.exit(1);
-  }
-}
+import { ensureDirectoryExists } from "~/utils/path";
 
 export function runOpen(store: ConfigStore, args: string[]): void {
   const name = args[0];
@@ -57,7 +45,7 @@ export function runOpen(store: ConfigStore, args: string[]): void {
 
   if (!store.has(name)) {
     console.error(
-      `No folder found for name "${name}". Use 'thyra list' to see saved entries.`,
+      `No folder found for name "${name}". Use 'thyra list' to see saved entries.`
     );
     process.exit(1);
   }

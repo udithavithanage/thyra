@@ -44,13 +44,6 @@ thyra config api /var/www/company/api
 
 # Open instantly
 thyra open blog
-## Update and Remove Commands
-
-# Update a saved project
-thyra update blog ~/projects/personal-blog-v2
-# Remove a saved project
-thyra remove api
-
 # See everything you saved
 thyra list
 
