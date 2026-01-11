@@ -73,7 +73,7 @@ export class ConfigStore {
       fs.writeFileSync(
         this.filePath,
         JSON.stringify(this.data, null, 2),
-        "utf8",
+        "utf8"
       );
     } catch (err) {
       const error = err as Error;
@@ -93,6 +93,13 @@ export class ConfigStore {
 
   has(key: string): boolean {
     return Object.prototype.hasOwnProperty.call(this.data, key);
+  }
+
+  delete(key: string): void {
+    if (this.has(key)) {
+      delete this.data[key];
+      this.save();
+    }
   }
 
   all(): Record<string, string> {
