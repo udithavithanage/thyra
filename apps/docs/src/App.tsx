@@ -3,15 +3,15 @@ import { useState, useEffect, useCallback, type JSX } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import Navbar from "@components/Navbar";
-import Sidebar from "@components/Sidebar";
-import Toc from "@components/Toc";
-import MobileBreadcrumb from "@components/MobileBreadcrumb";
-import CodeBlock from "@components/CodeBlock";
+import Navbar from "@/components/navbar";
+import Sidebar from "@/components/sidebar";
+import Toc from "@/components/toc";
+import MobileBreadcrumb from "@/components/mobile-breadcrumb";
+import CodeBlock from "@/components/code-block";
 
-import { useDevice } from "@/hooks/useDevice";
+import { useDevice } from "@/hooks/use-device";
 
-import { docs } from "./docsLoader";
+import { docs } from "./docs-loader";
 
 export default function App(): JSX.Element {
   const files = Object.keys(docs);

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useIntersectionObserver } from "@hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 
 type TocProps = {
   markdown: string;
