@@ -1,1 +1,1 @@
-D:/work_space/thyra/thyra/apps/docs/src/docs/README.md
+apps/docs/src/docs/README.md
