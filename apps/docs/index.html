@@ -1,122 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/icon" href="/thyra.ico" />
-    <meta name="author" content="Uditha Vithanage" />
-    <meta name="keywords" content="cli,navigation,thyra,tool" />
-    <meta name="creator" content="uditha" />
-    <meta property="og:title" content="thyra" />
-    <meta
-      property="og:description"
-      content="Thyra is a lightning-fast CLI tool for bookmarking and accessing your projects instantly."
-    />
-    <meta property="og:url" content="https://thyra.udithav.me" />
-    <meta property="og:site_name" content="thyra" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="thyra" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:type" content="website" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover"
-    />
-    <meta name="twitter:image" content="/thyra-banner.png" />
-    <meta property="og:image" content="/thyra-banner.png" />
 
-    <title>Thyra Docs</title>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/icon" href="/thyra.ico" />
+  <meta name="author" content="Uditha Vithanage" />
+  <meta name="keywords" content="cli,navigation,thyra,tool" />
+  <meta name="creator" content="uditha" />
+  <meta property="og:title" content="thyra" />
+  <meta property="og:description"
+    content="Thyra is a lightning-fast CLI tool for bookmarking and accessing your projects instantly." />
+  <meta property="og:url" content="https://thyra.udithav.me" />
+  <meta property="og:site_name" content="thyra" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="thyra" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:type" content="website" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover" />
+  <meta name="twitter:image" content="/thyra-banner.png" />
+  <meta property="og:image" content="/thyra-banner.png" />
 
-    <style>
-      :root {
-        --bg: #ffffff;
-        --fg: #0b0d10;
-        --muted: #9aa4b2;
-        --accent: #ffffff;
+  <title>Thyra Docs</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b0d10;
+      --muted: #9aa4b2;
+      --accent: #ffffff;
+    }
+
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top,
+          rgba(255, 255, 255, 0.05),
+          transparent 40%),
+        var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #splash-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-container {
+      text-align: center;
+    }
+
+    .splash-logo {
+      font-family: "Inter", sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--fg);
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .splash-tagline {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .splash-spinner {
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(24, 13, 13, 0.15);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
+    }
 
-      #splash-screen {
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(
-            circle at top,
-            rgba(255, 255, 255, 0.05),
-            transparent 40%
-          ),
-          var(--bg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
-      }
+    .splash-loading {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: "Inter", sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
 
-      #splash-screen.fade-out {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-
-      .splash-container {
-        text-align: center;
-      }
-
-      .splash-logo {
-        font-family: "Inter", sans-serif;
-        font-size: 30px;
-        font-weight: 700;
-        color: var(--fg);
-        letter-spacing: -0.03em;
-        margin-bottom: 10px;
-      }
-
-      .splash-tagline {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 13px;
-        color: var(--muted);
-        margin-bottom: 28px;
-      }
-
-      .splash-spinner {
-        width: 42px;
-        height: 42px;
-        border: 2px solid rgba(24, 13, 13, 0.15);
-        border-top-color: var(--accent);
-        border-radius: 50%;
-        animation: spin 0.9s linear infinite;
-        margin: 0 auto;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      .splash-loading {
-        margin-top: 18px;
-        font-size: 12px;
-        color: var(--muted);
-        font-family: "Inter", sans-serif;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="splash-screen">
-      <div class="splash-container">
-        <img src="/thyra.png" alt="Thyra Logo" width="100" height="100" />
-        <div class="splash-logo">Thyra</div>
-        <div class="splash-tagline">Keyboard-first project navigation</div>
-        <div class="splash-spinner"></div>
-        <div class="splash-loading">Loading docs</div>
-      </div>
+<body>
+  <div id="splash-screen">
+    <div class="splash-container">
+      <img src="/thyra.png" alt="Thyra Logo" width="100" height="100" />
+      <div class="splash-logo">Thyra</div>
+      <div class="splash-tagline">Keyboard-first project navigation</div>
+      <div class="splash-spinner"></div>
+      <div class="splash-loading">Loading docs</div>
     </div>
+  </div>
 
-    <div id="root"></div>
+  <div id="root"></div>
 
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

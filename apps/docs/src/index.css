@@ -1505,6 +1505,102 @@ samp {
   display: none;
 }
 
+/* ── Sidebar collapsible sections ── */
+
+.sb-section {
+  margin-bottom: 2px;
+}
+
+.sb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  padding: 9px 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sb-header:hover {
+  background: #f9fafb;
+}
+
+.sb-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.sb-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  color: #d1d5db;
+  transition: transform 0.2s ease, color 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sb-chevron .ti {
+  font-size: 16 px;
+  line-height: 1;
+}
+
+.sb-header:hover .sb-chevron {
+  color: #6b7280;
+  background: #f3f4f6;
+}
+
+/* items container: animated height */
+.sb-items {
+  overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.2s ease;
+}
+
+/* the vertical line connecting items to the title */
+.sb-items-inner {
+  border-left: 2px solid #e5e7eb;
+  margin-left: 6px;
+  margin-bottom: 6px;
+}
+
+.sb-item {
+  padding: 7px 10px;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 13.5px;
+  font-weight: 400;
+  border-radius: 0 6px 6px 0;
+  transition: color 0.12s ease, background 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  text-decoration: none;
+  display: block;
+}
+
+.sb-item:hover {
+  color: #111827;
+  background: #f9fafb;
+}
+
+.sb-item.active {
+  color: #111827;
+  font-weight: 600;
+  background: #f3f4f6;
+}
+
 /* ------------------------------------- */
 /* cyrillic-ext */
 @font-face {
