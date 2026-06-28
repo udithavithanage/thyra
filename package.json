@@ -1,46 +1,35 @@
 {
-  "name": "thyra",
+  "name": "@thyra/monorepo",
   "version": "1.3.0",
-  "description": "Simple project folder opener CLI",
-  "type": "module",
-  "bin": {
-    "thyra": "dist/cli.js"
-  },
-  "scripts": {
-    "build": "bun build ./src/cli.ts --outdir ./dist --target node --banner '#!/usr/bin/env node' --minify",
-    "start": "node ./dist/cli.js",
-    "lint": "eslint ."
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "cli",
-    "projects",
-    "folders",
-    "shortcut",
-    "vscode"
-  ],
-  "author": "Uditha Vithanage",
+  "private": true,
+  "description": "Monorepo for the Thyra CLI and documentation site.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/udithavithanage/thyra.git"
+  "packageManager": "bun@1.3.14",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean"
   },
-  "bugs": {
-    "url": "https://github.com/udithavithanage/thyra/issues"
-  },
-  "homepage": "https://github.com/udithavithanage/thyra#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
-    "bun": "^1.3.3",
-    "typescript": "^5.9.3"
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "rimraf": "^6.0.1",
+    "turbo": "^2.6.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4"
   },
-  "dependencies": {
-    "picocolors": "^1.1.1"
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.3.0"
   }
 }
