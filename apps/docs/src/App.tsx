@@ -3,9 +3,9 @@ import { useState, useEffect, useCallback, type JSX } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import Navbar from "@/components/navbar-temp";
-import Sidebar from "@/components/sidebar-temp";
-import Toc from "@/components/toc-temp";
+import Navbar from "@/components/navbar";
+import Sidebar from "@/components/sidebar";
+import Toc from "@/components/toc";
 import MobileBreadcrumb from "@/components/mobile-breadcrumb";
 import CodeBlock from "@/components/code-block";
 
