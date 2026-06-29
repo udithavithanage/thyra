@@ -1,0 +1,1 @@
+apps/web/docs/thyra/latest-release.md
