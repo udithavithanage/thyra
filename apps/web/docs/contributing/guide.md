@@ -1,158 +1,112 @@
-# Contributing Guide
+# Contributing to Thyra
 
-Thank you for considering contributing to Thyra! This guide will help you get started.
+First off, thank you for considering contributing to **Thyra**! 🎉
 
----
+Thyra is a tiny CLI designed to make developers' lives easier by bookmarking project folders and opening them instantly. Whether you want to fix a bug, add a new feature, improve performance, or update documentation, your contributions are highly valued.
 
-## Code of Conduct
+This document outlines the process for contributing to the repository.
 
-Be respectful, inclusive, and professional. We're all here to make Thyra better.
+## Prerequisites
 
----
+Before you begin, ensure you have the following installed on your machine:
 
-## Reporting Bugs
+- **Node.js**: v14 or higher.
+- **Bun**: Thyra uses Bun for package management (as indicated by `bun.lock`). You can install it via [bun.sh](https://bun.sh/).
+- **Git**: For version control.
 
-### Before Reporting
+## Local Development Setup
 
-1. Check if the bug has already been reported
-2. Try the latest version of Thyra
-3. Check the [Troubleshooting](/reference/troubleshooting) guide
+To set up Thyra locally for development, follow these steps:
 
-### How to Report
+### 1. Fork and Clone the Repository
 
-Open an issue with:
-
-- **Description**: Clear description of the bug
-- **Steps to Reproduce**: How to trigger the bug
-- **Expected Behavior**: What should happen
-- **Actual Behavior**: What actually happens
-- **Environment**:
-  ```bash
-  Thyra version: (thyra version)
-  Node version: (node --version)
-  OS: (macOS/Linux/Windows)
-  Shell: (bash/zsh/fish/powershell)
-  ```
-
----
-
-## Suggesting Features
-
-We love new ideas! Open an issue with:
-
-- **Problem**: What problem does this solve?
-- **Solution**: Your proposed solution
-- **Alternatives**: Other approaches you've considered
-- **Use Cases**: Real-world examples
-
----
-
-## Pull Request Process
-
-### 1. Fork and Clone
+Fork the [Thyra repository](https://github.com/udithavithanage/thyra) to your GitHub account, then clone it locally:
 
 ```bash
-git clone https://github.com/udithavithanage/thyra.git
+git clone https://github.com/YOUR-USERNAME/thyra.git
 cd thyra
 ```
 
-### 2. Create Branch
+### 2. Install Dependencies
+
+Use Bun to install the project dependencies:
 
 ```bash
-git checkout -b feature/my-feature
-# or
-git checkout -b fix/bug-description
+bun install
+
 ```
 
-### 3. Make Changes
+### 3. Link the CLI Locally
 
-- Write clean, readable code
-- Follow existing code style
-- Add tests if applicable
-- Update documentation
-
-### 4. Test
+To test the CLI commands (like `thyra config` or `thyra open`) while developing, link the package globally on your local machine:
 
 ```bash
-npm test
-npm run lint
+npm link
+# OR
+bun link
 ```
 
-### 5. Commit
+_Note: This allows you to run `thyra` in your terminal, and it will execute your local, modified code._
+
+## Branching Strategy
+
+Always create a new branch for your work. Do not commit directly to the `main` branch.
+
+Use descriptive branch names that indicate the purpose of your contribution:
+
+- **Features:** `feature/add-new-editor-support`
+- **Bug Fixes:** `bugfix/fix-path-resolution`
+- **Documentation:** `docs/update-readme-examples`
 
 ```bash
-git commit -m "feat: add amazing feature"
-# or
-git commit -m "fix: resolve issue with X"
+git checkout -b feature/your-feature-name
 ```
 
-**Commit Message Format:**
+## Making Changes
 
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation changes
-- `test:` Test changes
-- `refactor:` Code refactoring
+When writing code for Thyra, please keep the following in mind:
 
-### 6. Push and Create PR
+- **TypeScript:** Thyra is written in 100% TypeScript. Ensure your code is strongly typed and follows the existing conventions in the `src/` directory.
+- **Keep it Tiny:** Thyra's core philosophy is to be simple, fast, and have no fluff. Avoid adding heavy dependencies unless absolutely necessary.
+- **Update Documentation:** If you add a new command or change how a feature works, update the `README.md` to reflect those changes.
+
+## Commit Guidelines
+
+Thyra uses specific commit message conventions. **Please review the `.noto` folder** in the root directory for the project's exact commit guidelines before committing your changes.
+
+A general rule of thumb is to use conventional commits:
 
 ```bash
-git push origin feature/my-feature
+git add .
+git commit -m "feat: add support for custom editor paths"
+
 ```
 
-Then open a Pull Request on GitHub with:
+_(Common types: `feat`, `fix`, `docs`, `chore`, `refactor`)_
 
-- Clear description of changes
-- Link to related issues
-- Screenshots (if applicable)
+## Submitting a Pull Request
 
----
+Once your changes are ready and tested locally, it's time to submit a Pull Request (PR)!
 
-## Development Workflow
+1. **Push your branch** to your forked repository:
 
 ```bash
-# Install dependencies
-npm install
-
-# Run in development mode
-npm run dev
-
-# Run tests
-npm test
-
-# Run linter
-npm run lint
-
-# Build
-npm run build
+git push origin feature/your-feature-name
 ```
 
----
+2. Navigate to the [Thyra GitHub repository](https://github.com/udithavithanage/thyra) and click **Compare & pull request**.
+3. **Describe your changes** clearly in the PR description:
 
-## Coding Standards
+- What does this PR do?
+- Why is this change necessary?
+- Include any relevant issue numbers (e.g., `Fixes #12`).
 
-- Use meaningful variable names
-- Write comments for complex logic
-- Keep functions small and focused
-- Follow existing code patterns
+4. Submit the PR and wait for review!
 
----
+Maintainers will review your code, potentially request some changes, and finally merge it into the project.
 
-## Documentation
+## Need Help?
 
-When adding features:
+If you get stuck or have questions about how a specific part of the codebase works, feel free to open a **Discussion** or an **Issue** tagged as a `question` on GitHub.
 
-1. Update relevant `.md` files
-2. Add examples
-3. Update the changelog
-
----
-
-## Questions?
-
-- Open a [Discussion](https://github.com/udithavithanage/thyra/discussions)
-- Ask in your Pull Request
-
----
-
-**Thank you for contributing to Thyra!** 🎉
+Thank you for helping make Thyra better!
