@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { IoCopyOutline, IoCheckmarkSharp } from "react-icons/io5";
+import { IoCheckmarkSharp, IoCopyOutline } from "react-icons/io5";
 
 type CodeBlockProps = {
   children: string;

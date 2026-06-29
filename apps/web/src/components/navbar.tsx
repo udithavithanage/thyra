@@ -35,7 +35,10 @@ export default function Navbar({
     grouped[section].push(file);
   });
 
-  const getActiveInfo = () => ({ section: getDocsSectionLabel(active), pageTitle: getDocsPageLabel(active) });
+  const getActiveInfo = () => ({
+    section: getDocsSectionLabel(active),
+    pageTitle: getDocsPageLabel(active),
+  });
 
   const { section: activeSection, pageTitle: activePageTitle } =
     getActiveInfo();

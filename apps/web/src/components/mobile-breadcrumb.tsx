@@ -1,6 +1,8 @@
-import { MdNavigateNext } from "react-icons/md";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useEffect, type Dispatch, type SetStateAction } from "react";
+
+import { MdNavigateNext } from "react-icons/md";
+
+import { useIntersectionObserver } from "@/hooks";
 
 type MobileBreadcrumbProps = {
   section: string;

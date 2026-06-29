@@ -17,6 +17,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "@components": path.resolve(__dirname, "./src/components"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@layouts": path.resolve(__dirname, "./src/layouts"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
       "@public": path.resolve(__dirname, "./public"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       package: path.resolve(__dirname, "./package.json"),

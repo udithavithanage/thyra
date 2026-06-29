@@ -20,12 +20,16 @@ export default function DocsPage() {
 
   useEffect(() => {
     if (!hash) {
-      document.getElementById("content")?.scrollTo({ top: 0, behavior: "smooth" });
+      document
+        .getElementById("content")
+        ?.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     requestAnimationFrame(() => {
-      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById(hash.slice(1))
+        ?.scrollIntoView({ behavior: "smooth" });
     });
   }, [activeFile, hash]);
 
@@ -39,7 +43,11 @@ export default function DocsPage() {
           h3: ({ children }) => <h3 id={slug(children)}>{children}</h3>,
           h4: ({ children }) => <h4 id={slug(children)}>{children}</h4>,
           pre({ children }: any) {
-            return <CodeBlock className={children.props.className}>{children.props.children}</CodeBlock>;
+            return (
+              <CodeBlock className={children.props.className}>
+                {children.props.children}
+              </CodeBlock>
+            );
           },
         }}
       >

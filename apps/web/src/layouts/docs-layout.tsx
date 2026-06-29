@@ -1,14 +1,10 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import {
-  MobileBreadcrumb,
-  Navbar,
-  Sidebar,
-  Toc,
-} from "@/components";
+import { MobileBreadcrumb, Navbar, Sidebar, Toc } from "@/components";
 
 import { useDevice } from "@/hooks";
 import { docs } from "@/docs-loader";
+
 import {
   docsFileToPath,
   getDocsPageLabel,
@@ -34,10 +30,17 @@ export default function DocsLayout() {
 
   return (
     <div className="app-container">
-      <Navbar files={files} active={active} isMobile={isMobile} onSelect={handleSelect} />
+      <Navbar
+        files={files}
+        active={active}
+        isMobile={isMobile}
+        onSelect={handleSelect}
+      />
 
       <div className="layout">
-        {!isMobile && <Sidebar files={files} active={active} onSelect={handleSelect} />}
+        {!isMobile && (
+          <Sidebar files={files} active={active} onSelect={handleSelect} />
+        )}
 
         {isMobile && <MobileBreadcrumb section={section} page={page} />}
 

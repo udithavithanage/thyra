@@ -19,7 +19,9 @@ function pageLabel(value: string): string {
 
 export function resolveDocsFile(pathname: string, files: string[]): string {
   const normalized = normalizePathname(pathname);
-  const rootFile = files.includes("./docs/README.md") ? "./docs/README.md" : files[0];
+  const rootFile = files.includes("./docs/README.md")
+    ? "./docs/README.md"
+    : files[0];
 
   if (!normalized || /^README(?:\.md)?$/i.test(normalized)) {
     return rootFile;

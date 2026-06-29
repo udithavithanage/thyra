@@ -7,7 +7,7 @@ type SidebarProps = {
 };
 
 const SECTION_LABELS: Record<string, string> = {
-  "readme": "Overview",
+  readme: "Overview",
 };
 
 export default function Sidebar({ files, active, onSelect }: SidebarProps) {
@@ -37,7 +37,7 @@ export default function Sidebar({ files, active, onSelect }: SidebarProps) {
   };
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(Object.keys(grouped).map((s) => [s, true]))
+    () => Object.fromEntries(Object.keys(grouped).map((s) => [s, true])),
   );
 
   const toggleSection = (section: string) => {

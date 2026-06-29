@@ -29,7 +29,7 @@ export function useIntersectionObserver({
       {
         rootMargin,
         threshold,
-      }
+      },
     );
 
     elements.forEach((el) => observer.observe(el));
