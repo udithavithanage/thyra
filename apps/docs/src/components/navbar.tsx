@@ -8,6 +8,7 @@ import { FaGithub, FaNpm } from "react-icons/fa";
 import { version } from "package";
 
 import thyra from "@public/thyra.png";
+import { getDocsPageLabel, getDocsSectionLabel } from "@/utils";
 
 type NavProps = {
   files: string[];
@@ -34,28 +35,7 @@ export default function Navbar({
     grouped[section].push(file);
   });
 
-  // Get display name for file
-  const getDisplayName = (file: string): string => {
-    const fileName = file.split("/").pop()!.replace(".md", "");
-    if (fileName === "README") return "Overview";
-    return fileName
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  // Get section display name
-  const getSectionName = (section: string): string => {
-    return section.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-  };
-
-  // Get active section and page title
-  const getActiveInfo = () => {
-    const parts = active.replace("./docs/", "").split("/");
-    const section = parts[0];
-    const pageTitle = getDisplayName(active);
-    return { section: getSectionName(section), pageTitle };
-  };
+  const getActiveInfo = () => ({ section: getDocsSectionLabel(active), pageTitle: getDocsPageLabel(active) });
 
   const { section: activeSection, pageTitle: activePageTitle } =
     getActiveInfo();
@@ -134,7 +114,7 @@ export default function Navbar({
                   onClick={() => toggleSection(section)}
                 >
                   <span className="section-title">
-                    {getSectionName(section)}
+                    {getDocsSectionLabel(`./docs/${section}/README.md`)}
                   </span>
                   <span
                     className={`section-arrow ${
@@ -159,7 +139,7 @@ export default function Navbar({
                         }`}
                         onClick={() => handleFileSelect(file)}
                       >
-                        {getDisplayName(file)}
+                        {getDocsPageLabel(file)}
                       </div>
                     ))}
                   </div>

@@ -31,6 +31,8 @@
       "@hooks/*": ["src/hooks/*"],
       "@public/*": ["public/*"],
       "@utils/*": ["src/utils/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@pages/*": ["src/pages/*"],
       "package": ["./package.json"]
     }
   },
