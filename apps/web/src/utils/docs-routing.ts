@@ -45,7 +45,7 @@ export function docsFileToPath(file: string): string {
 }
 
 export function getDocsSectionLabel(file: string): string {
-  const relative = file.replace(DOCS_PREFIX, "");
+  const relative = file.replace(`${DOCS_PREFIX}.`, "");
 
   if (/^README(?:\.md)?$/i.test(relative)) {
     return "Docs";
@@ -55,7 +55,7 @@ export function getDocsSectionLabel(file: string): string {
 }
 
 export function getDocsPageLabel(file: string): string {
-  const relative = file.replace(DOCS_PREFIX, "");
+  const relative = file.replace(`${DOCS_PREFIX}.`, "");
   const fileName = relative.split("/").at(-1) ?? "";
 
   if (/^README(?:\.md)?$/i.test(fileName)) {

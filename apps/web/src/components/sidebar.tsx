@@ -21,12 +21,14 @@ export default function Sidebar({ files, active, onSelect }: SidebarProps) {
   });
 
   const getSectionLabel = (section: string): string => {
-    const lower = section.toLowerCase();
-    if (SECTION_LABELS[lower]) return SECTION_LABELS[lower];
-    return section
-      .replace(/[-_]/g, " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase());
-  };
+  const lower = section.toLowerCase();
+  if (SECTION_LABELS[lower]) return SECTION_LABELS[lower];
+
+  return section
+    .replace(/^[.]+/, "") 
+    .replace(/[-_.]/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+};
 
   const getDisplayName = (file: string): string => {
     const fileName = file.split("/").pop()!.replace(/\.md$/i, "");

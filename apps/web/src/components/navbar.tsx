@@ -117,7 +117,7 @@ export default function Navbar({
                   onClick={() => toggleSection(section)}
                 >
                   <span className="section-title">
-                    {getDocsSectionLabel(`./docs/${section}/README.md`)}
+                    {getDocsSectionLabel(`../docs/${section}/README.md`)}
                   </span>
                   <span
                     className={`section-arrow ${
