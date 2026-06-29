@@ -1,4 +1,4 @@
-const DOCS_PREFIX = "./docs/";
+const DOCS_PREFIX = "../docs/";
 
 function normalizePathname(pathname: string): string {
   return pathname.replace(/^\/+/, "").replace(/\/+$/, "");
