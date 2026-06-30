@@ -16,6 +16,6 @@ setTimeout(() => {
   const splashScreen = document.getElementById("splash-screen");
   if (splashScreen) {
     splashScreen.classList.add("fade-out");
-    splashScreen.remove();
+    setTimeout(() => splashScreen.remove(), 500);
   }
 }, 1000);

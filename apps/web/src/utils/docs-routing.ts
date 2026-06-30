@@ -19,9 +19,8 @@ function pageLabel(value: string): string {
 
 export function resolveDocsFile(pathname: string, files: string[]): string {
   const normalized = normalizePathname(pathname);
-  const rootFile = files.includes("./docs/README.md")
-    ? "./docs/README.md"
-    : files[0];
+  const rootCandidate = `${DOCS_PREFIX}README.md`;
+  const rootFile = files.includes(rootCandidate) ? rootCandidate : files[0];
 
   if (!normalized || /^README(?:\.md)?$/i.test(normalized)) {
     return rootFile;
@@ -45,7 +44,7 @@ export function docsFileToPath(file: string): string {
 }
 
 export function getDocsSectionLabel(file: string): string {
-  const relative = file.replace(`${DOCS_PREFIX}.`, "");
+  const relative = file.replace(DOCS_PREFIX, "");
 
   if (/^README(?:\.md)?$/i.test(relative)) {
     return "Docs";
@@ -55,7 +54,7 @@ export function getDocsSectionLabel(file: string): string {
 }
 
 export function getDocsPageLabel(file: string): string {
-  const relative = file.replace(`${DOCS_PREFIX}.`, "");
+  const relative = file.replace(DOCS_PREFIX, "");
   const fileName = relative.split("/").at(-1) ?? "";
 
   if (/^README(?:\.md)?$/i.test(fileName)) {

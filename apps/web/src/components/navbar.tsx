@@ -29,7 +29,7 @@ export default function Navbar({
   // Group files by section
   const grouped: Record<string, string[]> = {};
   files.forEach((file) => {
-    const parts = file.replace("./docs/", "").split("/");
+    const parts = file.replace("../docs/", "").split("/");
     const section = parts[0];
     if (!grouped[section]) grouped[section] = [];
     grouped[section].push(file);

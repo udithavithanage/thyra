@@ -11,7 +11,7 @@ export default defineConfig([
     "**/build/**",
     "**/node_modules/**",
     "**/.turbo/**",
-    "**/public/**"
+    "**/public/**",
   ]),
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -20,21 +20,18 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2022,
       globals: {
-        ...globals.node
-      }
-    }
+        ...globals.node,
+      },
+    },
   },
   {
-    files: ["apps/docs/**/*.{ts,tsx}"],
-    extends: [
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite
-    ],
+    files: ["apps/web/**/*.{ts,tsx}"],
+    extends: [reactHooks.configs.flat.recommended, reactRefresh.configs.vite],
     languageOptions: {
       ecmaVersion: 2022,
       globals: {
-        ...globals.browser
-      }
-    }
-  }
+        ...globals.browser,
+      },
+    },
+  },
 ]);

@@ -14,21 +14,21 @@ export default function Sidebar({ files, active, onSelect }: SidebarProps) {
   const grouped: Record<string, string[]> = {};
 
   files.forEach((file) => {
-    const parts = file.replace("./docs/", "").split("/");
+    const parts = file.replace("../docs/", "").split("/");
     const section = parts[0];
     if (!grouped[section]) grouped[section] = [];
     grouped[section].push(file);
   });
 
   const getSectionLabel = (section: string): string => {
-  const lower = section.toLowerCase();
-  if (SECTION_LABELS[lower]) return SECTION_LABELS[lower];
+    const lower = section.toLowerCase();
+    if (SECTION_LABELS[lower]) return SECTION_LABELS[lower];
 
-  return section
-    .replace(/^[.]+/, "") 
-    .replace(/[-_.]/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
-};
+    return section
+      .replace(/^[.]+/, "")
+      .replace(/[-_.]/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+  };
 
   const getDisplayName = (file: string): string => {
     const fileName = file.split("/").pop()!.replace(/\.md$/i, "");
