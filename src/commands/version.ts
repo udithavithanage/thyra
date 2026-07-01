@@ -99,10 +99,17 @@ function isGlobalInstall() {
   if (process.env.npm_config_global === "true") return true;
 
   const bin = process.argv[1] || "";
-  return (
-    /[/\\]node_modules[/\\].*[/\\].bin[/\\]/i.test(bin) ||
-    /[/\\]lib[/\\]node_modules[/\\]/i.test(bin)
-  );
+  const globalPatterns = [
+    /[/\\]node_modules[/\\].*[/\\]\.bin[/\\]/i, // npm/pnpm local bin shims
+    /[/\\]lib[/\\]node_modules[/\\]/i, // npm global (unix)
+    /[/\\]npm[/\\]node_modules[/\\]/i, // npm global (Windows AppData\Roaming\npm)
+    /[/\\]\.bun[/\\]bin[/\\]/i, // bun global
+    /[/\\]\.yarn[/\\]bin[/\\]/i, // yarn global (unix)
+    /[/\\]Yarn[/\\]Data[/\\]global[/\\]/i, // yarn global (Windows)
+    /[/\\]\.local[/\\]share[/\\]pnpm[/\\]/i, // pnpm global (unix)
+  ];
+
+  return globalPatterns.some((pattern) => pattern.test(bin));
 }
 
 function buildUpdateCommand(pkg: string): [string, string[]] {
@@ -117,7 +124,7 @@ function buildUpdateCommand(pkg: string): [string, string[]] {
 
     case "yarn":
       return global
-        ? ["npm", ["i", "-g", pkg]]
+        ? ["yarn", ["global", "add", pkg]]
         : ["yarn", ["add", `${pkg}@latest`]];
 
     case "bun":
