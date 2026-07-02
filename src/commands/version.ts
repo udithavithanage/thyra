@@ -100,7 +100,6 @@ function isGlobalInstall() {
 
   const bin = process.argv[1] || "";
   const globalPatterns = [
-    /[/\\]node_modules[/\\].*[/\\]\.bin[/\\]/i, // npm/pnpm local bin shims
     /[/\\]lib[/\\]node_modules[/\\]/i, // npm global (unix)
     /[/\\]npm[/\\]node_modules[/\\]/i, // npm global (Windows AppData\Roaming\npm)
     /[/\\]\.bun[/\\]bin[/\\]/i, // bun global
