@@ -1,10 +1,24 @@
 {
   "files": [],
   "references": [
-    { "path": "./apps/docs" },
-    { "path": "./packages/cli" }
+    {
+      "path": "./apps/web/docs"
+    },
+    {
+      "path": "./packages/cli"
+    }
   ],
   "compilerOptions": {
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "6.0",
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true
   }
 }
