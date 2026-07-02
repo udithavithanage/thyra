@@ -7,26 +7,37 @@ on:
 
 jobs:
   publish:
-    name: Publish Package
+    name: Publish CLI Package
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          registry-url: "https://registry.npmjs.org/"
+          registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: npm install
+        run: bun install --frozen-lockfile
 
-      - name: Build package
-        run: npm run build
+      - name: Build CLI package
+        run: bun run build --filter=packages/cli
+
+      - name: Verify npm package
+        run: npm pack --workspace=packages/cli
 
       - name: Publish to npm
-        run: npm publish
+        run: npm publish --workspace=packages/cli --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
