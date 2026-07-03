@@ -2,7 +2,7 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/web/docs"
+      "path": "./apps/web"
     },
     {
       "path": "./packages/cli"
