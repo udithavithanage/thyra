@@ -9,6 +9,8 @@
   "scripts": {
     "build": "bun build ./src/cli.ts --outdir ./dist --target node --banner '#!/usr/bin/env node' --minify",
     "start": "node ./dist/cli.js",
+    "link": "bun run build && bun link",
+    "unlink": "bun unlink",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist .turbo"

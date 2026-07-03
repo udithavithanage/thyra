@@ -12,17 +12,26 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "link": "turbo run link",
+    "unlink": "turbo run unlink",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "prepare": "husky",
+    "bump:patch": "bun run scripts/version-bump.ts patch",
+    "bump:minor": "bun run scripts/version-bump.ts minor",
+    "bump:major": "bun run scripts/version-bump.ts major"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.0",
+    "@commitlint/config-conventional": "^21.2.0",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "husky": "^9.1.7",
     "rimraf": "^6.0.1",
     "turbo": "^2.6.1",
     "typescript": "^5.9.3",

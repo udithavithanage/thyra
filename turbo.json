@@ -24,6 +24,18 @@
       ],
       "outputs": []
     },
+    "link": {
+      "dependsOn": [
+        "^link"
+      ],
+      "outputs": []
+    },
+    "unlink": {
+      "dependsOn": [
+        "^unlink"
+      ],
+      "outputs": []
+    },
     "lint": {
       "dependsOn": [
         "^lint"

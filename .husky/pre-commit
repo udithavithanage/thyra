@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+echo "Running build..."
+
+bun run build
