@@ -10,8 +10,7 @@ This document outlines the process for contributing to the repository.
 
 Before you begin, ensure you have the following installed on your machine:
 
-- **Node.js**: v14 or higher.
-- **Bun**: Thyra uses Bun for package management (as indicated by `bun.lock`). You can install it via [bun.sh](https://bun.sh/).
+- **Bun**: Thyra uses Bun as its runtime and package manager. Install it via [bun.sh](https://bun.sh/).
 - **Git**: For version control.
 
 ## Local Development Setup
@@ -20,7 +19,7 @@ To set up Thyra locally for development, follow these steps:
 
 ### 1. Fork and Clone the Repository
 
-Fork the [Thyra repository](https://github.com/udithavithanage/thyra) to your GitHub account, then clone it locally:
+Fork the [Thyra repository](https://github.com/udithavithanage/thyra) and clone it locally:
 
 ```bash
 git clone https://github.com/YOUR-USERNAME/thyra.git
@@ -29,84 +28,57 @@ cd thyra
 
 ### 2. Install Dependencies
 
-Use Bun to install the project dependencies:
+Use Bun to install all necessary dependencies:
 
 ```bash
 bun install
-
 ```
 
-### 3. Link the CLI Locally
+### 3. Local Workflow Scripts
 
-To test the CLI commands (like `thyra config` or `thyra open`) while developing, link the package globally on your local machine:
+We have introduced several utility scripts to streamline the development process:
 
-```bash
-npm link
-# OR
-bun link
-```
+| Action               | Command          |
+| -------------------- | ---------------- |
+| **Link for Testing** | `bun run link`   |
+| **Unlink**           | `bun run unlink` |
 
-_Note: This allows you to run `thyra` in your terminal, and it will execute your local, modified code._
+#### Version Bumping
+
+We use an automated script to handle version updates seamlessly. Depending on the type of changes you are introducing, use one of the following:
+
+- **Patch** (minor bug fixes): `bun run bump:patch`
+- **Minor** (new features): `bun run bump:minor`
+- **Major** (breaking changes): `bun run bump:major`
 
 ## Branching Strategy
 
-Always create a new branch for your work. Do not commit directly to the `main` branch.
+Always create a new branch for your work. Use descriptive names:
 
-Use descriptive branch names that indicate the purpose of your contribution:
-
-- **Features:** `feature/add-new-editor-support`
+- **Features:** `feature/your-feature-name`
 - **Bug Fixes:** `bugfix/fix-path-resolution`
-- **Documentation:** `docs/update-readme-examples`
-
-```bash
-git checkout -b feature/your-feature-name
-```
+- **Documentation:** `docs/update-guide`
 
 ## Making Changes
 
-When writing code for Thyra, please keep the following in mind:
-
-- **TypeScript:** Thyra is written in 100% TypeScript. Ensure your code is strongly typed and follows the existing conventions in the `src/` directory.
-- **Keep it Tiny:** Thyra's core philosophy is to be simple, fast, and have no fluff. Avoid adding heavy dependencies unless absolutely necessary.
-- **Update Documentation:** If you add a new command or change how a feature works, update the `README.md` to reflect those changes.
-
-## Commit Guidelines
-
-Thyra uses specific commit message conventions. **Please review the `.noto` folder** in the root directory for the project's exact commit guidelines before committing your changes.
-
-A general rule of thumb is to use conventional commits:
-
-```bash
-git add .
-git commit -m "feat: add support for custom editor paths"
-
-```
-
-_(Common types: `feat`, `fix`, `docs`, `chore`, `refactor`)_
+- **TypeScript**: Thyra is built with TypeScript. Follow existing conventions in the `src/` directory.
+- **Keep it Tiny**: Thyra's core philosophy is to be simple and fast. Avoid heavy dependencies.
+- **Commit Standards**: We enforce strict commit conventions using **Husky** and **commitlint**. Every commit must adhere to [Conventional Commits](https://www.conventionalcommits.org/).
+- **Pre-commit Checks**: Before committing, Husky will automatically trigger a build verification. If the build fails for any package in the monorepo, the commit will be blocked. Ensure your code passes all build checks locally.
 
 ## Submitting a Pull Request
 
-Once your changes are ready and tested locally, it's time to submit a Pull Request (PR)!
-
-1. **Push your branch** to your forked repository:
+1. **Push your branch** to your fork:
 
 ```bash
 git push origin feature/your-feature-name
 ```
 
-2. Navigate to the [Thyra GitHub repository](https://github.com/udithavithanage/thyra) and click **Compare & pull request**.
-3. **Describe your changes** clearly in the PR description:
-
-- What does this PR do?
-- Why is this change necessary?
-- Include any relevant issue numbers (e.g., `Fixes #12`).
-
-4. Submit the PR and wait for review!
-
-Maintainers will review your code, potentially request some changes, and finally merge it into the project.
+2. Open a Pull Request on the [Thyra repository](https://github.com/udithavithanage/thyra).
+3. Clearly describe your changes, the motivation behind them, and link any relevant Issue numbers.
 
 ## Need Help?
 
-If you get stuck or have questions about how a specific part of the codebase works, feel free to open a **Discussion** or an **Issue** tagged as a `question` on GitHub.
+If you are stuck, open a **Discussion** or an **Issue** tagged as a `question` on GitHub.
 
-Thank you for helping make Thyra better!
+_Thank you for helping make Thyra better!_
