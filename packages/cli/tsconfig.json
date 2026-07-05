@@ -23,7 +23,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "types": [
-      "node"
+      "bun-types"
     ],
     "preserveConstEnums": true
   },

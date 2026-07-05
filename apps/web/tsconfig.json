@@ -10,8 +10,8 @@
     ],
     "module": "ESNext",
     "types": [
-      "vite/client",
-      "node"
+      "bun-types",
+      "vite/client"
     ],
     "jsx": "react-jsx",
     "noEmit": true,
