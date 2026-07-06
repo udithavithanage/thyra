@@ -8,7 +8,6 @@
   },
   "scripts": {
     "build": "bun build ./src/cli.ts --outdir ./dist --target node --banner '#!/usr/bin/env node' --minify",
-    "start": "node ./dist/cli.js",
     "link": "bun run build && bun link",
     "unlink": "bun unlink",
     "lint": "eslint .",
@@ -20,7 +19,7 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "bun": ">=1.3.0"
   },
   "keywords": [
     "cli",
@@ -40,7 +39,6 @@
   },
   "homepage": "https://github.com/udithavithanage/thyra#readme",
   "devDependencies": {
-    "@types/node": "^24.10.1",
     "bun": "^1.3.3",
     "typescript": "^5.9.3"
   },
