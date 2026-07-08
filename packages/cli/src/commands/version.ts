@@ -1,4 +1,3 @@
-import https from "node:https";
 import fs from "node:fs";
 import readline from "node:readline";
 import { spawn } from "node:child_process";
@@ -7,15 +6,34 @@ import { ConfigStore } from "~/core";
 
 import { version } from "package" with { type: "json" };
 
-function saveVersionCheckData(store: ConfigStore, data: Record<string, any>) {
+const PACKAGE_NAME = "thyra";
+const REGISTRY_TIMEOUT_MS = 3500;
+const DEFAULT_THROTTLE_MS = 24 * 60 * 60 * 1000;
+
+interface EnsureUpToDateOptions {
+  throttleMs?: number;
+  envSkip?: boolean;
+}
+
+interface VersionCheckData {
+  lastChecked: number;
+  lastKnownLatest: string | null;
+}
+
+type PackageAgent = "npm" | "pnpm" | "yarn" | "bun";
+
+function saveVersionCheckData(
+  store: ConfigStore,
+  data: VersionCheckData,
+): void {
   try {
     fs.writeFileSync(store.versionDataFilePath, JSON.stringify(data), "utf8");
-  } catch (err: any) {
-    console.error("Failed to save version check file:", err.message);
+  } catch (err) {
+    console.error("Failed to save version check file:", (err as Error).message);
   }
 }
 
-function loadVersionCheckData(store: ConfigStore) {
+function loadVersionCheckData(store: ConfigStore): Partial<VersionCheckData> {
   if (!fs.existsSync(store.versionDataFilePath)) return {};
 
   try {
@@ -23,47 +41,39 @@ function loadVersionCheckData(store: ConfigStore) {
       fs.readFileSync(store.versionDataFilePath, "utf8"),
     );
     return parsed && typeof parsed === "object" ? parsed : {};
-  } catch (err: any) {
-    console.error("Failed to load version check file:", err.message);
+  } catch (err) {
+    console.error("Failed to load version check file:", (err as Error).message);
     return {};
   }
 }
 
-function fetchLatestVersion(pkgName: string) {
-  const url = `https://registry.npmjs.org/${encodeURIComponent(
-    pkgName,
-  )}/latest`;
+async function fetchLatestVersion(pkgName: string): Promise<string | null> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REGISTRY_TIMEOUT_MS);
 
-  return new Promise((resolve) => {
-    const req = https.get(url, { timeout: 3500 }, (res) => {
-      if (res.statusCode !== 200) {
-        res.resume();
-        return resolve(null);
-      }
+  try {
+    const res = await fetch(
+      `https://registry.npmjs.org/${encodeURIComponent(pkgName)}/latest`,
+      { signal: controller.signal },
+    );
 
-      let data = "";
-      res.setEncoding("utf8");
-      res.on("data", (chunk) => (data += chunk));
-      res.on("end", () => {
-        try {
-          resolve(JSON.parse(data).version ?? null);
-        } catch {
-          resolve(null);
-        }
-      });
-    });
+    if (!res.ok) return null;
 
-    req.on("error", () => resolve(null));
-    req.on("timeout", () => {
-      req.destroy();
-      resolve(null);
-    });
-  });
+    const data = (await res.json()) as { version?: unknown };
+    return typeof data.version === "string" ? data.version : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
-function askYesNo(question: string) {
+function askYesNo(question: string): Promise<boolean> {
   return new Promise((resolve) => {
-    if (!process.stdin.isTTY) return resolve(false);
+    if (!process.stdin.isTTY) {
+      resolve(false);
+      return;
+    }
 
     const rl = readline.createInterface({
       input: process.stdin,
@@ -76,8 +86,8 @@ function askYesNo(question: string) {
 
     rl.question(prompt, (answer) => {
       rl.close();
-      const s = answer.trim().toLowerCase();
-      resolve(s === "y" || s === "yes");
+      const normalized = answer.trim().toLowerCase();
+      resolve(normalized === "y" || normalized === "yes");
     });
 
     rl.on("SIGINT", () => {
@@ -87,25 +97,49 @@ function askYesNo(question: string) {
   });
 }
 
-function detectAgent() {
-  const ua = process.env.npm_config_user_agent || "";
-  if (/pnpm\//i.test(ua)) return "pnpm";
-  if (/yarn\//i.test(ua)) return "yarn";
-  if (/bun\//i.test(ua)) return "bun";
+function detectAgent(): PackageAgent {
+  const ua = process.env.npm_config_user_agent;
+
+  if (ua) {
+    if (ua.startsWith("pnpm/")) return "pnpm";
+    if (ua.startsWith("yarn/")) return "yarn";
+    if (ua.startsWith("bun/")) return "bun";
+    if (ua.startsWith("npm/")) return "npm";
+  }
+
+  // Fallback
+  try {
+    const cliPath = process.argv[1] ?? "";
+    const realPath = fs.realpathSync(cliPath).replace(/\\/g, "/");
+
+    if (realPath.includes("pnpm")) return "pnpm";
+    if (realPath.includes("yarn")) return "yarn";
+    if (realPath.includes("thyra")) return "bun";
+  } catch {
+    // Ignore errors and fall back to npm
+  }
+
   return "npm";
 }
 
-function isGlobalInstall() {
-  if (process.env.npm_config_global === "true") return true;
+function isGlobalInstall(): boolean {
+  if (process.env.npm_config_global === "true") {
+    return true;
+  }
 
-  const bin = process.argv[1] || "";
-  return (
-    /[/\\]node_modules[/\\].*[/\\].bin[/\\]/i.test(bin) ||
-    /[/\\]lib[/\\]node_modules[/\\]/i.test(bin)
-  );
+  const cliPath = process.argv[1] ?? "";
+  try {
+    const realPath = fs.realpathSync(cliPath).replace(/\\/g, "/");
+    return (
+      /[/\\]node_modules[/\\].*[/\\]\.bin[/\\]/i.test(realPath) ||
+      /[/\\](lib|global)[/\\]node_modules[/\\]/i.test(realPath)
+    );
+  } catch {
+    return false;
+  }
 }
 
-function buildUpdateCommand(pkg: string): [string, string[]] {
+function buildUpdateCommand(pkg: string, latest: string): [string, string[]] {
   const agent = detectAgent();
   const global = isGlobalInstall();
 
@@ -113,28 +147,29 @@ function buildUpdateCommand(pkg: string): [string, string[]] {
     case "pnpm":
       return global
         ? ["pnpm", ["add", "-g", pkg]]
-        : ["pnpm", ["add", `${pkg}@latest`]];
+        : ["pnpm", ["add", `${pkg}@${latest}`]];
 
     case "yarn":
       return global
         ? ["npm", ["i", "-g", pkg]]
-        : ["yarn", ["add", `${pkg}@latest`]];
+        : ["yarn", ["add", `${pkg}@${latest}`]];
 
     case "bun":
       return global
         ? ["bun", ["add", "-g", pkg]]
-        : ["bun", ["add", `${pkg}@latest`]];
+        : ["bun", ["add", `${pkg}@${latest}`]];
 
     default:
       return global
         ? ["npm", ["i", "-g", pkg]]
-        : ["npm", ["i", `${pkg}@latest`]];
+        : ["npm", ["i", `${pkg}@${latest}`]];
   }
 }
 
-function runUpdate(pkg: string) {
+function runUpdate(pkg: string, latest: string): Promise<boolean> {
   return new Promise((resolve) => {
-    const [cmd, args] = buildUpdateCommand(pkg);
+    const [cmd, args] = buildUpdateCommand(pkg, latest);
+    console.log(`Running update command: ${[cmd, ...args].join(" ")}`);
     const child = spawn(cmd, args, {
       stdio: "inherit",
       shell: process.platform === "win32",
@@ -145,47 +180,54 @@ function runUpdate(pkg: string) {
   });
 }
 
-export interface EnsureUpToDateOptions {
-  throttleMs?: number;
-  envSkip?: boolean;
+function shouldSkipCheck(options: EnsureUpToDateOptions): boolean {
+  if (!process.stdin.isTTY) return true;
+  if (process.env.NO_UPDATE_NOTIFIER === "1") return true;
+
+  if (options.envSkip && process.env.CI === "true") return true;
+
+  return false;
 }
 
-export async function ensureUpToDate(
+async function ensureUpToDate(
   store: ConfigStore,
   currentVersion: string,
   options: EnsureUpToDateOptions = {},
-) {
-  const pkgName = "thyra";
-  const today = new Date().toISOString().split("T")[0];
+): Promise<void> {
+  if (shouldSkipCheck(options)) return;
 
-  const config = loadVersionCheckData(store);
-  if (config.lastChecked === today) return;
+  const throttleMs = options.throttleMs ?? DEFAULT_THROTTLE_MS;
+  const now = Date.now();
+  const cached = loadVersionCheckData(store);
 
-  const latest = await fetchLatestVersion(pkgName);
+  if (cached.lastChecked && now - cached.lastChecked < throttleMs) return;
+
+  const latest = await fetchLatestVersion(PACKAGE_NAME);
   if (!latest) return;
 
   saveVersionCheckData(store, {
-    lastChecked: today,
-    lastKnownLatest: latest ?? null,
+    lastChecked: now,
+    lastKnownLatest: latest,
   });
 
   if (latest === currentVersion) return;
 
-  const question = `A new version of ${pkgName} is available (${latest}). Would you like to update now?`;
-  const yes = await askYesNo(question);
+  const shouldUpdate = await askYesNo(
+    `A new version of ${PACKAGE_NAME} is available (${latest}). Would you like to update now?`,
+  );
 
-  if (yes) {
-    const success = await runUpdate(pkgName);
-    if (!success) {
-      const [cmd, args] = buildUpdateCommand(pkgName);
-      console.error(
-        `\nUpdate failed. Run manually:\n  ${[cmd, ...args].join(" ")}`,
-      );
-    }
+  if (!shouldUpdate) return;
+
+  const success = await runUpdate(PACKAGE_NAME, latest);
+  if (!success) {
+    const [cmd, args] = buildUpdateCommand(PACKAGE_NAME, latest);
+    console.error(
+      `\nUpdate failed. Run manually:\n  ${[cmd, ...args].join(" ")}`,
+    );
   }
 }
 
-export async function runVersion(store: ConfigStore) {
+export async function runVersion(store: ConfigStore): Promise<void> {
   try {
     console.log(`v${version}`);
     await ensureUpToDate(store, version);
