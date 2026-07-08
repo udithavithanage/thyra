@@ -16,7 +16,7 @@ interface EnsureUpToDateOptions {
 }
 
 interface VersionCheckData {
-  lastChecked: number;
+  lastChecked: string;
   lastKnownLatest: string | null;
 }
 
@@ -110,11 +110,11 @@ function detectAgent(): PackageAgent {
   // Fallback
   try {
     const cliPath = process.argv[1] ?? "";
-    const realPath = fs.realpathSync(cliPath).replace(/\\/g, "/");
+    const realPath = fs.realpathSync(cliPath).replace(/\\/g, "/").toLowerCase();
 
     if (realPath.includes("pnpm")) return "pnpm";
     if (realPath.includes("yarn")) return "yarn";
-    if (realPath.includes("thyra")) return "bun";
+    if (realPath.includes("bun")) return "bun";
   } catch {
     // Ignore errors and fall back to npm
   }
@@ -142,34 +142,34 @@ function isGlobalInstall(): boolean {
 function buildUpdateCommand(pkg: string, latest: string): [string, string[]] {
   const agent = detectAgent();
   const global = isGlobalInstall();
+  const packageSpecifier = `${pkg}@${latest}`;
 
   switch (agent) {
     case "pnpm":
       return global
-        ? ["pnpm", ["add", "-g", pkg]]
-        : ["pnpm", ["add", `${pkg}@${latest}`]];
+        ? ["pnpm", ["add", "-g", packageSpecifier]]
+        : ["pnpm", ["add", packageSpecifier]];
 
     case "yarn":
       return global
-        ? ["npm", ["i", "-g", pkg]]
-        : ["yarn", ["add", `${pkg}@${latest}`]];
+        ? ["yarn", ["global", "add", packageSpecifier]]
+        : ["yarn", ["add", packageSpecifier]];
 
     case "bun":
       return global
-        ? ["bun", ["add", "-g", pkg]]
-        : ["bun", ["add", `${pkg}@${latest}`]];
+        ? ["bun", ["add", "-g", packageSpecifier]]
+        : ["bun", ["add", packageSpecifier]];
 
     default:
       return global
-        ? ["npm", ["i", "-g", pkg]]
-        : ["npm", ["i", `${pkg}@${latest}`]];
+        ? ["npm", ["i", "-g", packageSpecifier]]
+        : ["npm", ["i", packageSpecifier]];
   }
 }
 
 function runUpdate(pkg: string, latest: string): Promise<boolean> {
   return new Promise((resolve) => {
     const [cmd, args] = buildUpdateCommand(pkg, latest);
-    console.log(`Running update command: ${[cmd, ...args].join(" ")}`);
     const child = spawn(cmd, args, {
       stdio: "inherit",
       shell: process.platform === "win32",
@@ -200,13 +200,13 @@ async function ensureUpToDate(
   const now = Date.now();
   const cached = loadVersionCheckData(store);
 
-  if (cached.lastChecked && now - cached.lastChecked < throttleMs) return;
+  if (cached.lastChecked && now - parseInt(cached.lastChecked) < throttleMs) return;
 
   const latest = await fetchLatestVersion(PACKAGE_NAME);
   if (!latest) return;
 
   saveVersionCheckData(store, {
-    lastChecked: now,
+    lastChecked: now.toString(),
     lastKnownLatest: latest,
   });
 
