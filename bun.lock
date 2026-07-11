@@ -39,7 +39,7 @@
         "vite": "^7.2.4",
       },
     },
-    "packages/cli": {
+    "tools/cli": {
       "name": "thyra",
       "version": "1.3.0",
       "bin": {
@@ -799,7 +799,7 @@
 
     "supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 
-    "thyra": ["thyra@workspace:packages/cli"],
+    "thyra": ["thyra@workspace:tools/cli"],
 
     "thyra-docs": ["thyra-docs@workspace:apps/web"],
 

@@ -5,7 +5,7 @@
       "path": "./apps/web"
     },
     {
-      "path": "./packages/cli"
+      "path": "./tools/cli"
     }
   ],
   "compilerOptions": {
