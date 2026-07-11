@@ -5,11 +5,11 @@
       "path": "./apps/web"
     },
     {
-      "path": "./packages/cli"
+      "path": "./tools/cli"
     }
   ],
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "bundler",
