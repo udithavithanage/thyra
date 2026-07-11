@@ -9,7 +9,7 @@
     }
   ],
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "bundler",
