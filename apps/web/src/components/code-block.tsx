@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoCheckmarkSharp, IoCopyOutline } from "react-icons/io5";
 
 type CodeBlockProps = {
-  children: string;
+  children: React.ReactNode;
   className?: string;
 };
 
@@ -11,7 +11,7 @@ export default function CodeBlock({ children, className }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    navigator.clipboard.writeText(children).then(() => {
+    navigator.clipboard.writeText(children?.toLocaleString() || "").then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });

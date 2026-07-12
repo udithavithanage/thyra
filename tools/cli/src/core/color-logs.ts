@@ -2,6 +2,7 @@ import color from "picocolors";
 
 // Strip ANSI escape sequences (for width calc)
 export function stripAnsi(s: string) {
+  // eslint-disable-next-line no-control-regex
   return String(s).replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "");
 }
 
