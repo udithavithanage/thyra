@@ -42,10 +42,14 @@ export default function DocsPage() {
           h2: ({ children }) => <h2 id={slug(children)}>{children}</h2>,
           h3: ({ children }) => <h3 id={slug(children)}>{children}</h3>,
           h4: ({ children }) => <h4 id={slug(children)}>{children}</h4>,
-          pre({ children }: any) {
+          pre({ children }) {
+            const preChild = children as
+              | { props?: { className?: string; children?: React.ReactNode } }
+              | undefined;
+
             return (
-              <CodeBlock className={children.props.className}>
-                {children.props.children}
+              <CodeBlock className={preChild?.props?.className}>
+                {preChild?.props?.children}
               </CodeBlock>
             );
           },

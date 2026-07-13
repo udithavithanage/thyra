@@ -38,10 +38,6 @@
     "url": "https://github.com/udithavithanage/thyra/issues"
   },
   "homepage": "https://github.com/udithavithanage/thyra#readme",
-  "devDependencies": {
-    "bun": "^1.3.3",
-    "typescript": "^5.9.3"
-  },
   "dependencies": {
     "picocolors": "^1.1.1"
   }

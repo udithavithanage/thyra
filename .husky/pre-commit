@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
-echo "Running build..."
+set -e
 
+echo "Running pre-commit checks..."
+
+bun run lint
+bun run typecheck
 bun run build
+
+echo "All checks passed."
