@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { IoCheckmarkSharp, IoCopyOutline } from "react-icons/io5";
 
@@ -9,12 +9,13 @@ type CodeBlockProps = {
 
 export default function CodeBlock({ children, className }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const codeRef = useRef<HTMLElement>(null);
 
   const handleCopy = async () => {
-    navigator.clipboard.writeText(children?.toLocaleString() || "").then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    const codeText = codeRef.current?.textContent || "";
+    await navigator.clipboard.writeText(codeText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   // Extract language from className (e.g., "language-javascript")
@@ -39,7 +40,7 @@ export default function CodeBlock({ children, className }: CodeBlockProps) {
       </div>
 
       <pre className={className}>
-        <code>{children}</code>
+        <code ref={codeRef}>{children}</code>
       </pre>
     </div>
   );
