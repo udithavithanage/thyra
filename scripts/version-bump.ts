@@ -28,8 +28,8 @@ root.version = newVersion;
 
 fs.writeFileSync(rootPath, JSON.stringify(root, null, 2) + "\n");
 
-// bump all workspace packages
-const folders = ["apps", "packages"];
+// bump all workspaces
+const folders = ["apps", "tools"];
 
 for (const folder of folders) {
   if (!fs.existsSync(folder)) continue;
