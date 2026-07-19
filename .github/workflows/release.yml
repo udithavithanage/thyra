@@ -32,12 +32,14 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build CLI package
-        run: bun run build --filter=tools/cli
+        run: bun run build --filter=thyra
 
       - name: Verify npm package
-        run: npm pack --workspace=tools/cli
+        working-directory: ./tools/cli
+        run: npm pack
 
       - name: Publish to npm
-        run: npm publish --workspace=tools/cli --access public
+        working-directory: ./tools/cli
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
