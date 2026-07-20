@@ -4,6 +4,7 @@ set -e
 
 echo "Running pre-commit checks..."
 
+bun run scripts/check-latest-release.ts
 bun run lint
 bun run typecheck
 bun run build

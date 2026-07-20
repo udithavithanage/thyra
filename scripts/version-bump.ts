@@ -28,6 +28,14 @@ root.version = newVersion;
 
 fs.writeFileSync(rootPath, JSON.stringify(root, null, 2) + "\n");
 
+if (type !== "patch") {
+  const latestReleasePath = "./apps/web/docs/thyra/latest-release.md";
+  const versionReleasePath = `./apps/web/docs/thyra/v${newVersion}.md`;
+
+  fs.writeFileSync(versionReleasePath, "");
+  fs.writeFileSync(latestReleasePath, "");
+}
+
 // bump all workspaces
 const folders = ["apps", "tools"];
 
