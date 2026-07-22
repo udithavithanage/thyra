@@ -18,6 +18,7 @@
     "typecheck": "turbo run typecheck",
     "clean": "turbo run clean",
     "prepare": "husky",
+    "check:latest-release": "bun run scripts/check-latest-release.ts",
     "bump:patch": "bun run scripts/version-bump.ts patch",
     "bump:minor": "bun run scripts/version-bump.ts minor",
     "bump:major": "bun run scripts/version-bump.ts major"
