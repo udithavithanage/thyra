@@ -10,7 +10,7 @@ function quoteShellArg(value: string): string {
   return `'${value.replace(/'/g, `'\\''`)}'`;
 }
 
-function openInEditor(folderPath: string, editor? : string): void {
+function openInEditor(folderPath: string, editor?: string): void {
   const editorCmd = editor || "code";
   const command = `${editorCmd} ${quoteShellArg(folderPath)}`;
 
@@ -23,7 +23,9 @@ function openInEditor(folderPath: string, editor? : string): void {
 
   child.on("error", (error) => {
     if (editorCmd !== "explorer") {
-      console.error(`Failed to start editor "${editorCmd}". Is it installed and on your PATH?`);
+      console.error(
+        `Failed to start editor "${editorCmd}". Is it installed and on your PATH?`,
+      );
       console.error(error.message);
       process.exit(1);
     }
@@ -38,7 +40,9 @@ function openInEditor(folderPath: string, editor? : string): void {
 }
 
 function levenshteinDistance(a: string, b: string): number {
-  const matrix = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+  const matrix = Array.from({ length: a.length + 1 }, () =>
+    Array(b.length + 1).fill(0),
+  );
   for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
   for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
 
@@ -48,7 +52,7 @@ function levenshteinDistance(a: string, b: string): number {
       matrix[i][j] = Math.min(
         matrix[i - 1][j] + 1,
         matrix[i][j - 1] + 1,
-        matrix[i - 1][j - 1] + cost
+        matrix[i - 1][j - 1] + cost,
       );
     }
   }
@@ -57,7 +61,24 @@ function levenshteinDistance(a: string, b: string): number {
 
 export function runOpen(store: ConfigStore, args: string[]): void {
   const name = args[0];
-  const editor = args[1] || process.env.EDITOR;
+
+  let editor: string | undefined = process.env.EDITOR;
+  if (args[1]) {
+    if (args[1] === "--editor" || args[1] === "-e") {
+      if (args[2]) {
+        editor = args[2];
+      } else {
+        console.error("Missing <editor> argument for 'open' command.");
+        console.log("Usage: thyra open <name> --editor <editor>");
+        process.exit(1);
+      }
+    } else {
+      console.error(`Unknown option "${args[1]}" for 'open' command.`);
+      console.log("Usage: thyra open <name> [--editor <editor>]");
+      process.exit(1);
+    }
+  }
+
   if (!name) {
     console.error("Missing <name> argument for 'open' command.");
     console.log("Usage: thyra open <name>");
@@ -66,9 +87,9 @@ export function runOpen(store: ConfigStore, args: string[]): void {
 
   if (!store.has(name)) {
     console.error(
-      `No folder found for alias "${name}". Use 'thyra list' to see saved entries.`
+      `No folder found for alias "${name}". Use 'thyra list' to see saved entries.`,
     );
-    
+
     // Fuzzy matching suggestion
     const allAliases = Object.keys(store.all());
     if (allAliases.length > 0) {
@@ -85,12 +106,12 @@ export function runOpen(store: ConfigStore, args: string[]): void {
           closest = alias;
         }
       }
-      
+
       if (closest && (closest.includes(name) || minDistance <= 3)) {
         console.log(`\nDid you mean: ${color.green(closest)} ?`);
       }
     }
-    
+
     process.exit(1);
   }
 

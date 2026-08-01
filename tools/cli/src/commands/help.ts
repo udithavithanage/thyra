@@ -5,8 +5,8 @@ import { colorize, printCommandTable } from "~/core";
 export function runHelp(exitCode: number) {
   console.log(
     `\n${color.bold(color.cyan("thyra"))} ${color.dim(
-      "- Quick shortcut manager for project folders"
-    )}\n`
+      "- Quick shortcut manager for project folders",
+    )}\n`,
   );
 
   const rows = [
@@ -19,8 +19,9 @@ export function runHelp(exitCode: number) {
       Description: "Scan and register projects from a directory",
     },
     {
-      Command: colorize("thyra open <name> | <editor>"),
-      Description: "Open folder in your editor (default: code) (<editor> is overridden by $EDITOR env variable)",
+      Command: colorize("thyra open <name> | --editor <editor>"),
+      Description:
+        "Open folder in your editor (default: $EDITOR or 'code') [--editor to override]",
     },
     {
       Command: colorize("thyra update <name> <folder_path>"),
@@ -28,7 +29,8 @@ export function runHelp(exitCode: number) {
     },
     {
       Command: colorize("thyra remove <name> | --all | --force"),
-      Description: "Remove a saved path or all paths (--force to skip confirmation)",
+      Description:
+        "Remove a saved path or all paths (--force to skip confirmation)",
     },
     { Command: colorize("thyra list"), Description: "Show all saved paths" },
     { Command: colorize("thyra --version"), Description: "Show CLI version" },
@@ -40,30 +42,28 @@ export function runHelp(exitCode: number) {
   console.log(
     `\n${color.bold(color.underline("Examples:"))}
   ${colorize("thyra config <name> <folder_path>")}   ${color.dim(
-      "# Save a path"
-    )}
+    "# Save a path",
+  )}
   ${colorize("thyra import ./projects")}             ${color.dim(
-      "# Import multiple projects"
-    )}
+    "# Import multiple projects",
+  )}
   ${colorize("thyra open <name>")}                   ${color.dim(
-      "# Open in editor"
-    )}
+    "# Open in editor",
+  )}
   ${colorize("thyra update <name> <folder_path>")} ${color.dim(
-      "# Update an existing saved path"
-    )}
+    "# Update an existing saved path",
+  )}
   ${colorize("thyra remove <name>")}                ${color.dim(
-      "# Remove a saved path"
-    )}
+    "# Remove a saved path",
+  )}
   ${colorize("thyra remove --all")}                 ${color.dim(
-      "# Remove all saved paths"
-    )}
+    "# Remove all saved paths",
+  )}
   ${colorize("thyra --version")}
 
 ${color.bold(color.underline("Environment:"))}
-  ${color.cyan("EDITOR")}  ${color.dim(
-      'Editor command (default: "code")'
-    )}
-`
+  ${color.cyan("EDITOR")}  ${color.dim('Editor command (default: "code")')}
+`,
   );
 
   if (typeof exitCode === "number") process.exit(exitCode);
