@@ -10,8 +10,8 @@ function quoteShellArg(value: string): string {
   return `'${value.replace(/'/g, `'\\''`)}'`;
 }
 
-function openInEditor(folderPath: string) {
-  const editorCmd = process.env.EDITOR || "code";
+function openInEditor(folderPath: string, editor? : string): void {
+  const editorCmd = editor || "code";
   const command = `${editorCmd} ${quoteShellArg(folderPath)}`;
 
   console.log(`Opening "${folderPath}" in "${editorCmd}"...`);
@@ -57,6 +57,7 @@ function levenshteinDistance(a: string, b: string): number {
 
 export function runOpen(store: ConfigStore, args: string[]): void {
   const name = args[0];
+  const editor = args[1] || process.env.EDITOR;
   if (!name) {
     console.error("Missing <name> argument for 'open' command.");
     console.log("Usage: thyra open <name>");
@@ -100,5 +101,5 @@ export function runOpen(store: ConfigStore, args: string[]): void {
   }
 
   ensureDirectoryExists(entry.path);
-  openInEditor(entry.path);
+  openInEditor(entry.path, editor);
 }

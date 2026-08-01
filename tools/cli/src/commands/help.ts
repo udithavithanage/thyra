@@ -19,8 +19,8 @@ export function runHelp(exitCode: number) {
       Description: "Scan and register projects from a directory",
     },
     {
-      Command: colorize("thyra open <name>"),
-      Description: "Open folder in your editor",
+      Command: colorize("thyra open <name> | <editor>"),
+      Description: "Open folder in your editor (default: code) (<editor> is overridden by $EDITOR env variable)",
     },
     {
       Command: colorize("thyra update <name> <folder_path>"),
