@@ -1,7 +1,7 @@
 import color from "picocolors";
 
 import { ConfigStore } from "~/core";
-import { ensureDirectoryExists, suggestClosestAlias } from "~/utils";
+import { ensureDirectoryExists, resolveFolderPath, suggestClosestAlias } from "~/utils";
 
 export function runCd(store: ConfigStore, args: string[]): void {
   const name = args[0];
@@ -32,7 +32,8 @@ export function runCd(store: ConfigStore, args: string[]): void {
     process.exit(1);
   }
 
-  ensureDirectoryExists(entry.path);
+  const resolvedPath = resolveFolderPath(entry.path);
+  ensureDirectoryExists(resolvedPath);
 
-  process.stdout.write(`${entry.path}\n`);
+  process.stdout.write(`${resolvedPath}\n`);
 }
