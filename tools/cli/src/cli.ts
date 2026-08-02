@@ -2,6 +2,7 @@ import {
   runConfig,
   runVersion,
   runOpen,
+  runCd,
   runList,
   runHelp,
   runRemove,
@@ -35,6 +36,9 @@ import { getConfigFilePath, ConfigStore } from "~/core";
       break;
     case "open":
       runOpen(store, rest);
+      break;
+    case "cd":
+      runCd(store, rest);
       break;
     case "remove":
       runRemove(store, rest);

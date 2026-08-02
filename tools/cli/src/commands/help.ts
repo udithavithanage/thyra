@@ -23,6 +23,10 @@ export function runHelp(exitCode: number) {
       Description: "Open folder in your editor",
     },
     {
+      Command: colorize("thyra cd <name>"),
+      Description: "Change directory to a saved path",
+    },
+    {
       Command: colorize("thyra update <name> <folder_path>"),
       Description: "Update an existing saved path",
     },
@@ -50,6 +54,9 @@ export function runHelp(exitCode: number) {
     )}
   ${colorize("thyra update <name> <folder_path>")} ${color.dim(
       "# Update an existing saved path"
+    )}
+  ${colorize("thyra cd <name>")}                     ${color.dim(
+      "# Print a saved folder's path"
     )}
   ${colorize("thyra remove <name>")}                ${color.dim(
       "# Remove a saved path"

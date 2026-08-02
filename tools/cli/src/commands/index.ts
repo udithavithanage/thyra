@@ -2,6 +2,7 @@ export { runConfig } from "./config";
 export { runVersion } from "./version";
 export { runOpen } from "./open";
 export { runList } from "./list";
+export { runCd } from "./cd";
 export { runHelp } from "./help";
 export { runRemove } from "./remove";
 export { runUpdate } from "./update";
