@@ -34,8 +34,10 @@ jobs:
       - name: Build CLI package
         run: bun run build --filter=thyra
 
-      - name: Copy true README content to package folder
-        run: cp apps/web/docs/thyra/latest-release.md tools/cli/README.md
+      - name: Copy README and LICENSE to package folder
+        run: |
+          cp apps/web/docs/thyra/latest-release.md tools/cli/README.md
+          cp LICENSE tools/cli/LICENSE
 
       - name: Verify npm package
         working-directory: ./tools/cli
