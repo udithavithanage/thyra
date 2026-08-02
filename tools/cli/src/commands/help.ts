@@ -24,7 +24,7 @@ export function runHelp(exitCode: number) {
     },
     {
       Command: colorize("thyra cd <name>"),
-      Description: "Change directory to a saved path",
+      Description: "Print a saved folder's path",
     },
     {
       Command: colorize("thyra update <name> <folder_path>"),
