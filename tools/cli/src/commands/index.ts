@@ -6,3 +6,4 @@ export { runHelp } from "./help";
 export { runRemove } from "./remove";
 export { runUpdate } from "./update";
 export { runImport } from "./import";
+export { runCd } from "./cd";

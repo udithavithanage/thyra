@@ -20,8 +20,11 @@ export function runHelp(exitCode: number) {
     },
     {
       Command: colorize("thyra open <name> [-e | --editor <editor>]"),
-      Description:
-        "Open folder in your editor (default: $EDITOR or 'code')",
+      Description: "Open folder in your editor (default: $EDITOR or 'code')",
+    },
+    {
+      Command: colorize("thyra cd <name>"),
+      Description: "Open a new Terminal window at the saved folder",
     },
     {
       Command: colorize("thyra update <name> <folder_path>"),
@@ -52,6 +55,9 @@ export function runHelp(exitCode: number) {
   )}
   ${colorize("thyra open <name> -e <editor>")}       ${color.dim(
     "# Open in <editor>",
+  )}
+  ${colorize("thyra cd <name>")}                     ${color.dim(
+    "# Open a new Terminal window at the saved folder",
   )}
   ${colorize("thyra update <name> <folder_path>")} ${color.dim(
     "# Update an existing saved path",

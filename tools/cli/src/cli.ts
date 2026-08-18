@@ -7,6 +7,7 @@ import {
   runRemove,
   runUpdate,
   runImport,
+  runCd,
 } from "./commands";
 import { getConfigFilePath, ConfigStore } from "~/core";
 
@@ -47,6 +48,9 @@ import { getConfigFilePath, ConfigStore } from "~/core";
       break;
     case "import":
       runImport(store, rest);
+      break;
+    case "cd":
+      runCd(store, rest);
       break;
     default:
       console.error(`Unknown command: ${command}`);
