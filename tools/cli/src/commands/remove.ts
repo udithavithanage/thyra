@@ -4,7 +4,10 @@ import color from "picocolors";
 
 import type { ConfigStore } from "~/core";
 
-export async function runRemove(store: ConfigStore, args: string[]): Promise<void> {
+export async function runRemove(
+  store: ConfigStore,
+  args: string[],
+): Promise<void> {
   const isAll = args.includes("--all");
   const isForce = args.includes("--force");
 
@@ -16,9 +19,9 @@ export async function runRemove(store: ConfigStore, args: string[]): Promise<voi
     }
 
     if (!isForce) {
-      console.log(color.yellow("⚠️  You are about to delete ALL projects."));
+      console.log(color.yellow("⚠️ You are about to delete ALL projects."));
       console.log(color.yellow("This action cannot be undone."));
-      
+
       const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -55,7 +58,7 @@ export async function runRemove(store: ConfigStore, args: string[]): Promise<voi
 
   if (!store.has(name)) {
     console.error(
-      `No folder found for alias "${name}". Use 'thyra list' to see saved entries.`
+      `No folder found for alias "${name}". Use 'thyra list' to see saved entries.`,
     );
     process.exit(1);
   }
