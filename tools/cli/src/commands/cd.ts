@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 
 import { ConfigStore } from "~/core";
+import { ensureDirectoryExists } from "~/utils";
 
 export function runCd(store: ConfigStore, args: string[]): void {
   const name = args[0];
@@ -17,6 +18,8 @@ export function runCd(store: ConfigStore, args: string[]): void {
     console.error(`No project found with alias "${name}".`);
     process.exit(1);
   }
+
+  ensureDirectoryExists(entry.path);
 
   try {
     // Open a new Terminal window in the project directory
