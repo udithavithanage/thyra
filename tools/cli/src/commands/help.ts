@@ -19,9 +19,9 @@ export function runHelp(exitCode: number) {
       Description: "Scan and register projects from a directory",
     },
     {
-      Command: colorize("thyra open <name> | --editor <editor>"),
+      Command: colorize("thyra open <name> [-e | --editor <editor>]"),
       Description:
-        "Open folder in your editor (default: $EDITOR or 'code') [--editor to override]",
+        "Open folder in your editor (default: $EDITOR or 'code')",
     },
     {
       Command: colorize("thyra update <name> <folder_path>"),
@@ -49,6 +49,9 @@ export function runHelp(exitCode: number) {
   )}
   ${colorize("thyra open <name>")}                   ${color.dim(
     "# Open in editor",
+  )}
+  ${colorize("thyra open <name> -e <editor>")}       ${color.dim(
+    "# Open in <editor>",
   )}
   ${colorize("thyra update <name> <folder_path>")} ${color.dim(
     "# Update an existing saved path",
