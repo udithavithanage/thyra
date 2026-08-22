@@ -3,35 +3,22 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "ES2022"
-    ],
+    "lib": ["ES2022"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "src/*"
-      ],
-      "package": [
-        "./package.json"
-      ]
+      "~/*": ["src/*"],
+      "package": ["package.json"]
     },
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "types": [
-      "bun-types"
-    ],
+    "types": ["bun-types"],
     "preserveConstEnums": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*", "bunup.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }
