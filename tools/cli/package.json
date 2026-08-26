@@ -44,5 +44,6 @@
   },
   "devDependencies": {
     "bunup": "^0.16.32"
-  }
+  },
+  "peerDependencies": {}
 }
