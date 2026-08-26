@@ -4,10 +4,10 @@
   "description": "Simple project folder opener CLI",
   "type": "module",
   "bin": {
-    "thyra": "dist/cli.js"
+    "thyra": "dist/index.js"
   },
   "scripts": {
-    "build": "bun build ./src/cli.ts --outdir ./dist --target node --banner '#!/usr/bin/env node' --minify",
+    "build": "bunup --clean",
     "link": "bun run build && bun link",
     "unlink": "bun unlink",
     "lint": "eslint .",
@@ -41,5 +41,9 @@
   "homepage": "https://github.com/udithavithanage/thyra#readme",
   "dependencies": {
     "picocolors": "^1.1.1"
-  }
+  },
+  "devDependencies": {
+    "bunup": "^0.16.32"
+  },
+  "peerDependencies": {}
 }
