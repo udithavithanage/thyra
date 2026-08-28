@@ -16,7 +16,8 @@ export function runList(store: ConfigStore) {
     const entry = all[key];
     return {
       Command: color.cyan(entry.alias || key),
-      Description: color.dim(entry.path),
+      Description: entry.path,
+      Extra: entry.editor ? color.yellow(entry.editor) : color.dim("-"),
     };
   });
 
@@ -26,6 +27,7 @@ export function runList(store: ConfigStore) {
     header: {
       Command: "Name",
       Description: "Path",
+      Extra: "Editor",
     },
   });
 }

@@ -62,11 +62,12 @@ function levenshteinDistance(a: string, b: string): number {
 export function runOpen(store: ConfigStore, args: string[]): void {
   const name = args[0];
 
-  let editor: string | undefined = process.env.EDITOR;
+  let flagEditor: string | undefined;
+
   if (args[1]) {
     if (args[1] === "--editor" || args[1] === "-e") {
       if (args[2]) {
-        editor = args[2];
+        flagEditor = args[2];
       } else {
         console.error("Missing <editor> argument for 'open' command.");
         console.log("Usage: thyra open <name> --editor <editor>");
@@ -120,6 +121,9 @@ export function runOpen(store: ConfigStore, args: string[]): void {
     console.error(`Invalid folder path for alias "${name}".`);
     process.exit(1);
   }
+
+  // Priority: 1. Flag, 2. Project Config, 3. Global Env, 4. Default "code"
+  const editor = flagEditor || entry.editor || process.env.EDITOR || "code";
 
   ensureDirectoryExists(entry.path);
   openInEditor(entry.path, editor);
