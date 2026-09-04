@@ -4,4 +4,5 @@ export interface ProjectEntry {
   alias: string;
   path: string;
   createdAt: string;
+  editor?: string;
 }

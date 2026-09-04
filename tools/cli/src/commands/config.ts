@@ -2,15 +2,16 @@ import crypto from "node:crypto";
 import path from "node:path";
 
 import { resolveFolderPath, ensureDirectoryExists } from "~/utils";
-import  { ConfigStore } from "~/core";
+import { ConfigStore } from "~/core";
 
 export function runConfig(store: ConfigStore, args: string[]): void {
   const name = args[0];
   const folderArg = args[1];
+  const editor = args[2];
 
   if (!name || !folderArg) {
     console.error("Missing arguments for 'config' command.");
-    console.log("Usage: thyra config <name> <folder_path>");
+    console.log("Usage: thyra config <name> <folder_path> [editor]");
     process.exit(1);
   }
 
@@ -25,6 +26,9 @@ export function runConfig(store: ConfigStore, args: string[]): void {
     alias: name,
     path: folderPath,
     createdAt: new Date().toISOString(),
+    editor,
   });
-  console.log(`Saved mapping: "${name}" -> ${folderPath}`);
+  console.log(
+    `Saved mapping: "${name}" -> ${folderPath}${editor ? ` (editor: ${editor})` : ""}`,
+  );
 }

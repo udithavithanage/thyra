@@ -11,8 +11,8 @@ export function runHelp(exitCode: number) {
 
   const rows = [
     {
-      Command: colorize("thyra config <name> <folder_path>"),
-      Description: "Save a folder path",
+      Command: colorize("thyra config <name> <folder_path> [editor]"),
+      Description: "Save a folder path (with optional editor)",
     },
     {
       Command: colorize("thyra import <directory>"),
@@ -27,8 +27,10 @@ export function runHelp(exitCode: number) {
       Description: "Open a new Terminal window at the saved folder",
     },
     {
-      Command: colorize("thyra update <name> <folder_path>"),
-      Description: "Update an existing saved path",
+      Command: colorize(
+        "thyra update <name> [--path <folder_path>] [--editor <editor>]",
+      ),
+      Description: "Update an existing saved path or editor",
     },
     {
       Command: colorize("thyra remove <name> | --all | --force"),
@@ -59,7 +61,7 @@ export function runHelp(exitCode: number) {
   ${colorize("thyra cd <name>")}                     ${color.dim(
     "# Open a new Terminal window at the saved folder",
   )}
-  ${colorize("thyra update <name> <folder_path>")} ${color.dim(
+  ${colorize("thyra update <name> --path <folder_path>")} ${color.dim(
     "# Update an existing saved path",
   )}
   ${colorize("thyra remove <name>")}                ${color.dim(
