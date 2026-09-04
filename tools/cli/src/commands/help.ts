@@ -61,7 +61,7 @@ export function runHelp(exitCode: number) {
   ${colorize("thyra cd <name>")}                     ${color.dim(
     "# Open a new Terminal window at the saved folder",
   )}
-  ${colorize("thyra update <name> <folder_path>")} ${color.dim(
+  ${colorize("thyra update <name> --path <folder_path>")} ${color.dim(
     "# Update an existing saved path",
   )}
   ${colorize("thyra remove <name>")}                ${color.dim(

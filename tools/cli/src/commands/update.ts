@@ -24,14 +24,42 @@ export function runUpdate(store: ConfigStore, args: string[]): void {
   let pathArg: string | undefined;
   let editorArg: string | undefined;
 
-  // Simple flag parsing
   for (let i = 1; i < args.length; i++) {
-    if (args[i] === "--path" && args[i + 1]) {
-      pathArg = args[i + 1];
+    const arg = args[i];
+
+    if (arg === "--path") {
+      if (pathArg) {
+        console.error("Error: Path already specified.");
+        process.exit(1);
+      }
+      const val = args[i + 1];
+      if (!val || val.startsWith("--")) {
+        console.error("Error: Missing value for --path.");
+        process.exit(1);
+      }
+      pathArg = val;
       i++;
-    } else if (args[i] === "--editor" && args[i + 1]) {
-      editorArg = args[i + 1];
+    } else if (arg === "--editor") {
+      if (editorArg) {
+        console.error("Error: --editor already specified.");
+        process.exit(1);
+      }
+      const val = args[i + 1];
+      if (!val || val.startsWith("--")) {
+        console.error("Error: Missing value for --editor.");
+        process.exit(1);
+      }
+      editorArg = val;
       i++;
+    } else if (arg.startsWith("--")) {
+      console.error(`Error: Unknown flag '${arg}'.`);
+      process.exit(1);
+    } else {
+      if (pathArg) {
+        console.error(`Error: Unexpected argument '${arg}'.`);
+        process.exit(1);
+      }
+      pathArg = arg;
     }
   }
 
@@ -55,8 +83,9 @@ export function runUpdate(store: ConfigStore, args: string[]): void {
       `Updated mapping: "${name}" -> ${entry.path}${entry.editor ? ` (editor: ${entry.editor})` : ""}`,
     );
   } else {
-    console.log(
+    console.error(
       "No changes provided. Usage: thyra update <name> [--path <folder_path>] [--editor <editor>]",
     );
+    process.exit(1);
   }
 }
