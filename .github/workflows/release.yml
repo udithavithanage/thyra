@@ -36,7 +36,7 @@ jobs:
 
       - name: Copy README and LICENSE to package folder
         run: |
-          cp apps/web/docs/thyra/latest-release.md tools/cli/README.md
+          cp README.md tools/cli/README.md
           cp LICENSE tools/cli/LICENSE
 
       - name: Verify npm package
