@@ -40,7 +40,7 @@ npm install -g thyra
 ```bash
 # Map projects with custom editor options
 thyra config blog ~/projects/personal-blog
-thyra config api /var/www/company/api --editor webstorm
+thyra config api /var/www/company/api webstorm
 
 # Batch import projects from a workspace
 thyra import ~/projects
