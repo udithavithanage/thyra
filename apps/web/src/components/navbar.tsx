@@ -7,7 +7,6 @@ import { FaGithub, FaNpm } from "react-icons/fa";
 
 import { version } from "package";
 
-import thyra from "@public/thyra.png";
 import { getDocsPageLabel, getDocsSectionLabel } from "@/utils";
 
 type NavProps = {
@@ -56,7 +55,7 @@ export default function Navbar({
     <nav className="navbar">
       <div className="nav-container">
         <div className="nav-brand">
-          <img src={thyra} alt="Thyra" width={35} />
+          <img src={"/thyra.png"} alt="Thyra" width={35} />
           <span className="brand-text">Thyra Docs</span>
         </div>
 

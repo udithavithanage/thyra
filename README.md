@@ -1,1 +1,361 @@
-apps/web/docs/thyra/latest-release.md
+<h1 align="center">thyra ✨</h1>
+<p align="center"><em>A tiny CLI to bookmark project folders under short names and open them instantly in your favorite editor.</em></p>
+<img src="https://raw.githubusercontent.com/udithavithanage/static-assets/refs/heads/main/thyra/images/thyra-banner.png" align="center"></img>
+
+<br>
+
+[![npm version](https://img.shields.io/npm/v/thyra.svg)](https://www.npmjs.com/package/thyra)
+[![npm downloads](https://img.shields.io/npm/dm/thyra.svg)](https://www.npmjs.com/package/thyra)
+![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-339933)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
+**thyra** is designed for developers who hop between multiple projects and want a faster, keyboard-only way to jump straight into a folder—no file explorer, no hassle.
+
+## Key Features
+
+- **Quick Mapping**: Save any folder under a short, memorable alias. Supports directory existence verification and home folder (`~`) path resolution automatically.
+- **Intelligent Batch Import**: Bulk import subdirectories from a parent folder.
+  - _Dry-run simulation_ with `--dry-run`.
+  - _Automatic slug generation_ for folder names.
+  - _Smart collision resolution_ (appends suffixes if aliases conflict).
+  - _Idempotency protection_ (skips already-registered folder paths automatically).
+- **Instant Project Launcher**: Open your mapped folder inside any editor instantly with standard or custom config overrides on the fly.
+- **Fuzzy Search & Suggestion Engine**: Typo? No problem. If an alias isn't found, `thyra` suggests closest matches using substring and Levenshtein distance calculations.
+- **Priority Resolution Hierarchy**: Dynamically resolves which editor to use: command flags override project configurations, which override `EDITOR` environment variables, which fall back to `code` (VS Code).
+- **Workspace Navigation**: Instantly spawn a new Terminal window directly inside your mapped project folder using `cd` on macOS.
+- **Global Cleanses**: Cleanly remove individual mappings or flush your entire storage with confirmation-guarded actions.
+- **Interactive Version Upgrader**: Automatic version checks that are throttled to run only once every 24 hours. Intelligently detects your package manager (`npm`, `pnpm`, `yarn`, `bun`), your installation context (global vs local), and updates `thyra` with a single prompt.
+- **Automatic Migration**: Upgrades old string-based configurations to modern structured schemas seamlessly upon load.
+
+## Installation
+
+Install `thyra` globally via NPM:
+
+```bash
+npm install -g thyra
+```
+
+**⚠️ Requirements:** This package requires **Node.js v18+** or **Bun >= 1.3.0**. After installation, the `thyra` command will be available system-wide.
+
+## Quick Start
+
+```bash
+# Map projects with custom editor options
+thyra config blog ~/projects/personal-blog
+thyra config api /var/www/company/api webstorm
+
+# Batch import projects from a workspace
+thyra import ~/projects
+
+# Open mapped folder instantly in default editor (VS Code) or custom
+thyra open blog
+
+# View all saved project bookmarks
+thyra list
+
+# Check version and update if available
+thyra version
+```
+
+## Command Reference
+
+### `thyra config`
+
+Map a directory path to a short alias.
+
+#### Syntax
+
+```bash
+thyra config <name> <folder_path> [editor]
+```
+
+#### Arguments
+
+- `<name>`: The short, unique alias you want to assign to this directory.
+- `<folder_path>`: The absolute or relative path to the folder. Resolves `~` to your home directory automatically.
+- `[editor]` _(Optional)_: Set a custom editor command (e.g. `vim`, `subl`, `webstorm`) specifically for this project.
+
+#### Examples
+
+```bash
+thyra config frontend ~/code/react-app
+thyra config api ~/projects/node-api webstorm
+```
+
+### `thyra import`
+
+Recursively scans a target directory for immediate subfolders and registers them as project mappings.
+
+#### Syntax
+
+```bash
+thyra import <directory> [--dry-run]
+```
+
+#### Options
+
+- `--dry-run`: Runs a full simulation of the scan. Prints details of what would be imported, skipped, or resolved, without changing any configurations.
+
+#### Core Behaviors
+
+1. **Idempotency Check**: `thyra` automatically skips folders whose exact paths are already mapped.
+2. **Slugification**: Folder names are clean-slugified (e.g. `My Cool Project!` -> `my-cool-project`).
+3. **Collision Detection**: If an alias collision is detected with an existing project or with another folder in the current import session, a numeric suffix is appended automatically (e.g. `api` -> `api-2`, `api-3`).
+
+#### Examples
+
+```bash
+# Simulate a batch import
+thyra import ~/projects --dry-run
+
+# Run actual import
+thyra import ~/projects
+```
+
+### `thyra open`
+
+Opens a mapped project in your configured editor.
+
+#### Syntax
+
+```bash
+thyra open <name> [-e | --editor <editor>]
+```
+
+#### Options
+
+- `-e, --editor <editor>`: Override the default or configured editor on-the-fly for this session.
+
+#### Intelligent Features
+
+- **Fuzzy Search**: If you type a typo like `thyra open bllog`, the system calculates the Levenshtein distance and will ask:
+  ```
+  Did you mean: blog ?
+  ```
+- **Shell Arg Escaping**: Escapes paths safely for execution across Windows and POSIX environments.
+
+#### Examples
+
+```bash
+# Opens blog in default editor
+thyra open blog
+
+# Opens blog in vim
+thyra open blog -e vim
+
+# Opens blog in WebStorm
+thyra open blog --editor webstorm
+```
+
+### `thyra cd`
+
+Spawns a new terminal session positioned inside your project's saved directory path.
+
+#### Syntax
+
+```bash
+thyra cd <name>
+```
+
+#### Requirements
+
+- Supported on **macOS (Darwin)**, utilizing `open -a Terminal <path>`.
+
+#### Example
+
+```bash
+thyra cd blog
+```
+
+### `thyra update`
+
+Updates the path, editor, or both for an existing project mapping.
+
+#### Syntax
+
+```bash
+thyra update <name> [--path <folder_path>] [--editor <editor>]
+```
+
+_Note: Positional shorthand is supported:_
+
+```bash
+thyra update <name> <folder_path>
+```
+
+#### Options
+
+- `--path <folder_path>`: Update the stored path. Folder must exist.
+- `--editor <editor>`: Update the custom editor command.
+
+#### Examples
+
+```bash
+# Update path using shorthand
+thyra update blog ~/projects/personal-blog-v2
+
+# Update path using explicit flag
+thyra update blog --path ~/projects/personal-blog-v2
+
+# Update editor only
+thyra update blog --editor vim
+
+# Update both at once
+thyra update blog --path ~/projects/personal-blog-v2 --editor vim
+```
+
+### `thyra remove`
+
+Removes a saved project mapping, or wipes the entire registry.
+
+#### Syntax
+
+```bash
+thyra remove <name>
+# OR
+thyra remove --all [--force]
+```
+
+#### Options
+
+- `--all`: Clears the entire configuration registry.
+- `--force`: Skips the interactive deletion confirmation prompt.
+
+#### Examples
+
+```bash
+# Remove a single mapping
+thyra remove api
+
+# Clean registry with a safety confirmation prompt
+thyra remove --all
+# ⚠️ You are about to delete ALL projects.
+# This action cannot be undone.
+# Type 'yes' to confirm:
+
+# Force-wipe registry without confirmation
+thyra remove --all --force
+```
+
+### `thyra list`
+
+Renders a structured, clean terminal table showing all saved folders.
+
+#### Syntax
+
+```bash
+thyra list
+```
+
+#### Sample Output
+
+```
+Name      Path                                Editor
+-
+blog      /Users/you/projects/personal-blog   -
+api       /var/www/company/api                webstorm
+```
+
+### `thyra version`
+
+Displays current CLI version and runs background update checks.
+
+#### Syntax
+
+```bash
+thyra version
+# OR
+thyra --version
+# OR
+thyra -v
+```
+
+#### Modern Update Lifecycle
+
+1. **24-Hour Throttling**: Checks for new versions only once every 24 hours to keep CLI boots fast.
+2. **Auto-Upgrade Engine**: If a new version is available on NPM and your terminal is in interactive mode (TTY), `thyra` asks:
+   ```
+   A new version of thyra is available (<latest>). Would you like to update now? (y/n)
+   ```
+3. **Smart Agent Detection**: If you confirm, `thyra` automatically detects the package manager used to install it (`npm`, `pnpm`, `yarn`, or `bun`) and runs the appropriate update script globally or locally based on your environment.
+
+## Editor Resolution Hierarchy
+
+When you execute `thyra open <alias>`, the CLI resolves which editor to launch based on this order of precedence:
+
+![Editor Resolution Hierarchy](https://raw.githubusercontent.com/udithavithanage/static-assets/refs/heads/main/thyra/images/editor-resolution-hierarchy.png)
+
+## Configuration Storage
+
+All configurations are stored in an organized schema in your home folder.
+
+### File Paths
+
+| Platform          | Configuration Registry       | Version Cache Info                   |
+| :---------------- | :--------------------------- | :----------------------------------- |
+| **macOS / Linux** | `~/.config/thyra/thyra.json` | `~/.config/thyra/thyra.version.json` |
+| **Windows**       | `%APPDATA%\thyra\thyra.json` | `%APPDATA%\thyra\thyra.version.json` |
+
+### Configuration Schema Example (`thyra.json`)
+
+```json
+{
+  "blog": {
+    "id": "c138d844-3d0d-44eb-bd59-7ffc5f403df2",
+    "name": "personal-blog",
+    "alias": "blog",
+    "path": "/Users/you/projects/personal-blog",
+    "createdAt": "2026-09-17T14:30:00.000Z",
+    "editor": "vim"
+  },
+  "api": {
+    "id": "e674b210-91bc-4cc5-99be-75bd71a067ff",
+    "name": "api",
+    "alias": "api",
+    "path": "/var/www/company/api",
+    "createdAt": "2026-09-17T14:32:00.000Z"
+  }
+}
+```
+
+## Environment Variables
+
+You can configure global overrides via terminal environment variables:
+
+| Variable             | Function                                              | Example                       |
+| -------------------- | ----------------------------------------------------- | ----------------------------- |
+| `EDITOR`             | Defines the global fallback editor to open paths      | `export EDITOR="subl"`        |
+| `NO_UPDATE_NOTIFIER` | Disables version check completely when set to `1`     | `export NO_UPDATE_NOTIFIER=1` |
+| `CI`                 | Disables interactive prompts in pipeline environments | `export CI=true`              |
+
+## Troubleshooting & FAQ
+
+#### Command not found after installation?
+
+Ensure that your package manager's global binary directory is listed on your system `PATH`.
+
+- For NPM: `$HOME/.npm-global/bin` or the NVM folder.
+- For Yarn: `$(yarn global bin)`
+- For Bun: `$HOME/.bun/bin`
+
+#### Paths with spaces?
+
+When configuring mappings, wrap folder paths with spaces in quotes:
+
+```bash
+thyra config client "/Users/you/Work/Client A/Design Folder"
+```
+
+#### Editor doesn't launch?
+
+Check if the editor binary command itself is accessible in your system terminal. For example, verify if typing `code .` or `webstorm .` works independently. If it does, ensure that exact binary name is passed as the editor mapping.
+
+## Uninstallation
+
+If you ever wish to uninstall:
+
+```bash
+npm uninstall -g thyra
+```
+
+Your configuration files under `~/.config/thyra/` will be kept safe so you can reinstall anytime without losing mappings. Remove the folder manually if you want a fully clean slate.
